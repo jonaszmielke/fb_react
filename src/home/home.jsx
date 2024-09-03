@@ -1,11 +1,14 @@
 import React from "react";
+import { token } from "../login/login";
 
 const Home = () => {
     return (
-        
         <div>
-            <h2>Home</h2>
-        </div>
+            <section></section>
+            <section></section>
+            <section></section>
+        </div>        
+        
     );
 };
 

@@ -50,7 +50,7 @@ form{
     background-color: white;
     border: 2px solid grey;
     border-radius: 20px;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 
     display: flex;
     flex-direction: column;
@@ -75,6 +75,7 @@ button{
     width: 300px;
     
     padding: 0px 16px;
+    border: 1px solid grey;
     border-radius: 10px;
     
     color: white;
@@ -86,10 +87,10 @@ button{
 }
 a{
     
-    height: 48px;
-    width: 150px;
+    height: 20px;
+    width: 160px;
     
-    padding: 8px 16px 0px;
+    padding: 5px 16px;
     border-radius: 10px;
 
     color: white;
@@ -104,4 +105,11 @@ a{
 hr{
     width: 90%;
     margin: 20px 0px;
+}
+
+.wrong{
+    color: red;
+    text-align: center;
+    visibility: hidden;
+    margin: 0px;
 }
