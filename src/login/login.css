@@ -1,8 +1,3 @@
-body{
-    font-family: Helvetica, Arial, sans-serif;
-    background-color: #f2f4f7;
-}
-
 .login-page{
     height: 50vh;
     width: 50vw;
@@ -27,22 +22,21 @@ body{
     margin-bottom: 100px;
 }
 
-
-h1{
+.login-page>section>div>h1{
     width: 500px;
     font-size: 60px;
     color: #0866ff;
     margin-bottom: 0px;
 }
 
-h2{
+.login-page>section>div>h2{
     width: 500px;
     font-weight: normal;
     font-size: 28px;
     margin-top: 10px;
 }
 
-form{
+.login-page>section>form{
     
     height: 360px;
     width: 350px;
@@ -58,7 +52,7 @@ form{
     justify-content:space-evenly;
 }
 
-input{
+.login-page>section>form>input{
     width: 300px;
     height: 22px;
     padding: 16px;
@@ -69,7 +63,7 @@ input{
     font-size: 17px;
 }
 
-button{
+.login-page>section>form>button{
     
     height: 48px;
     width: 300px;
@@ -85,7 +79,7 @@ button{
     font-size: 16px;
     font-weight: bold;
 }
-a{
+.login-page>section>form>a{
     
     height: 20px;
     width: 160px;
@@ -102,7 +96,7 @@ a{
     font-weight: bold;
 }
 
-hr{
+.login-page>section>form>hr{
     width: 90%;
     margin: 20px 0px;
 }

@@ -1,0 +1,75 @@
+.post{
+    background-color: white;
+    border-radius: 20px;
+    
+    width: 680px;
+    padding: 20px 30px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.postHeader{
+    display: flex;
+    flex-direction: row;
+    margin: 0px 0px 50px 0px;
+}
+.postHeader>div:nth-of-type(1){
+    width: 70%;
+    height: 48px;
+    margin: 0px;
+
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "picture owner"
+        "picture date";
+    column-gap: 30px;
+}
+.postHeader>div:nth-of-type(1)>img{
+    height: 40px;
+    width: 40px;
+    grid-area: picture;
+    background-color: grey;
+    border-radius: 50%;
+}
+.postHeader>div:nth-of-type(1)>span:nth-of-type(1){
+    grid-area: owner;
+    font-size: 16px;
+    font-weight: 600;
+}
+.postHeader>div:nth-of-type(1)>span:nth-of-type(2){
+    grid-area: date;
+    font-size: 13px;
+    font-weight: 400;
+    color: grey;
+}
+
+
+.postHeader>div:nth-of-type(2){
+    width: 30%;
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.postHeader>div:nth-of-type(2)>p{
+
+    height: 10px;
+    margin: 0px 10px 0px 0px;
+
+    font-weight: bold;
+    font-size: 30px;
+
+    text-align: right;
+}
+
+.post>div:nth-of-type(2){
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.post>img{
+    min-height: 680px;
+    background-color: grey;
+}
