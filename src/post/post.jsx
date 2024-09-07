@@ -8,8 +8,7 @@ const date_options = {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false
-  };
-
+};
 
 const Post = ({ id }) => {
     
@@ -32,7 +31,6 @@ const Post = ({ id }) => {
                 <p>Error loading post {id}</p>
             </div>
         );
-
     }
 
     let date = new Date(postDetails.createdAt);

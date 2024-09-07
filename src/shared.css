@@ -9,17 +9,44 @@ header{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
+    height: 56px;
+    border-bottom: 1px solid gray ;
+    margin-bottom: 40px;
+    background-color: white;
 }
 
 header>div{
     display: flex;
+    align-items: center;
 }
 header>div:nth-of-type(1){
     justify-content: left;
+    align-items: center;
+    padding-left: 50px;
 }
+header>div:nth-of-type(1)>input{
+    width: 233px;
+    height: 24px;
+    border: none;
+    border-radius: 50px;
+    padding: 7px 8px 9px 15px;
+    font-size: 15px;
+    background-color: #f2f4f7;
+}
+header>div:nth-of-type(1)>input:focus{
+    outline: none;
+    border: none;
+}
+
+
 header>div:nth-of-type(2){
     justify-content: center;
+    color: #0866ff;
 }
+header>div:nth-of-type(2)>h1{
+    margin: 0px;
+}
+
 header>div:nth-of-type(3){
     justify-content: right;
 }
