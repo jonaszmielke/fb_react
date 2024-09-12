@@ -28,19 +28,31 @@
         "picture date";
     column-gap: 30px;
 }
-.postHeader>div:nth-of-type(1)>img{
+.postHeader>div:nth-of-type(1)>a:nth-of-type(1){
     height: 40px;
     width: 40px;
     grid-area: picture;
+    text-decoration: none;
+}
+.postHeader>div:nth-of-type(1)>a:nth-of-type(1)>img{
+    margin: 0px;
+    height: 40px;
+    width: 40px;
     background-color: grey;
     border-radius: 50%;
+    text-decoration: none;
 }
-.postHeader>div:nth-of-type(1)>span:nth-of-type(1){
+.postHeader>div:nth-of-type(1)>a:nth-of-type(2){
     grid-area: owner;
+    text-decoration: none;
+}
+.postHeader>div:nth-of-type(1)>a:nth-of-type(2)>span{
+    margin: 0px;
     font-size: 16px;
     font-weight: 600;
+    text-decoration: none;
 }
-.postHeader>div:nth-of-type(1)>span:nth-of-type(2){
+.postHeader>div:nth-of-type(1)>span{
     grid-area: date;
     font-size: 13px;
     font-weight: 400;

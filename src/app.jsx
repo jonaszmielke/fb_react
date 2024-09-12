@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import LoginPage from "./login/login";
 import Home from "./home/home";
+import User from "./user/user";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -20,6 +21,7 @@ const App = () => {
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
                 <Routes>
+                    <Route path="/user/:id" element={<User/>}/>
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/" element={<LoginPage/>}/>
                 </Routes>

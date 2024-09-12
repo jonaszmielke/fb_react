@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchPost from "../query/fetchpost";
 import "./post.css"
+import { Link } from "react-router-dom";
 
 const date_options = {
     month: 'short',
@@ -39,8 +40,12 @@ const Post = ({ id }) => {
         <div className="post">
             <div className="postHeader">
                 <div>
-                    <img src={`http://localhost:3000/app_images/profile_pictures/${postDetails.owner.profilePictureUrl}`} alt="Author's profile piscture"/>
-                    <span>{`${postDetails.owner.name} ${postDetails.owner.surname}`}</span>
+                    <Link to={`/user/${postDetails.owner.id}`}>
+                        <img src={`http://localhost:3000/app_images/profile_pictures/${postDetails.owner.profilePictureUrl}`} alt="Author's profile piscture"/>
+                    </Link>
+                    <Link to={`/user/${postDetails.owner.id}`}>
+                        <span>{`${postDetails.owner.name} ${postDetails.owner.surname}`}</span>
+                    </Link>
                     <span>{date}</span>
                 </div>
                 <div>
