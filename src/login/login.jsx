@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import fetchjwt from "./fetchjwt";
+import Cookies from 'js-cookie';
 
 export let token;
 
@@ -16,7 +17,7 @@ const LoginPage = () => {
             <section>
                 <div>
                     <h1>fb app</h1>
-                    <h2>A Facebook like app project written in react and node</h2>
+                    <h2>A Facebook like app project written in react and express</h2>
                 </div>
             </section>
             <section>
@@ -29,7 +30,7 @@ const LoginPage = () => {
                         const wrong = document.getElementById("wrong");
                         wrong.style.visibility = 'visible';
                     } else {
-                        token = jwt.token;
+                        Cookies.set('userjwt', jwt.token, { sameSite: 'Lax' })
                         navigate('/home');
                     }
                 }}>

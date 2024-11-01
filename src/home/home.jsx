@@ -1,13 +1,16 @@
-import { token } from "../login/login";
-import fetchFyp from "../query/fetchfyp";
+//import { token } from "../login/login";
 import "./home.css";
 
 import Header from "../header";
 import Post from "../post/post";
 import { useEffect, useState, useRef } from "react";
+import fetchFyp from "../query/fetchfyp";
+import Cookies from 'js-cookie';
 
 
 const Home = () => {
+    const userjwt = Cookies.get('userjwt');
+
     const [posts, setPosts] = useState([]);
     const postsRef = useRef(posts);
 
@@ -43,7 +46,7 @@ const Home = () => {
 
     async function requestfyp(currentPosts) {
             
-        const new_posts = await fetchFyp(currentPosts);
+        const new_posts = await fetchFyp(currentPosts, userjwt);
         console.log(new_posts);
 
         if (new_posts.allPostsDepleted) {

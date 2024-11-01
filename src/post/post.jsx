@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchPost from "../query/fetchpost";
-import "./post.css"
+import "./post.css";
 import { Link } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const date_options = {
     month: 'short',
@@ -12,10 +13,13 @@ const date_options = {
 };
 
 const Post = ({ id }) => {
-    
+    const userjwt = Cookies.get('userjwt');
+
     const { data: postDetails, isLoading } = useQuery({
         queryKey: ["post", id],
-        queryFn: fetchPost
+        queryFn: ({ queryKey }) => {
+            return fetchPost({queryKey, userjwt});
+        }
     });
 
     if (isLoading) {
@@ -26,7 +30,7 @@ const Post = ({ id }) => {
         );
     }
 
-    if(!postDetails){
+    if (!postDetails) {
         return (
             <div className="post">
                 <p>Error loading post {id}</p>
@@ -35,13 +39,14 @@ const Post = ({ id }) => {
     }
 
     let date = new Date(postDetails.createdAt);
-    date = date.toLocaleString('en-UK', date_options)
+    date = date.toLocaleString('en-UK', date_options);
+    
     return (
         <div className="post">
             <div className="postHeader">
                 <div>
                     <Link to={`/user/${postDetails.owner.id}`}>
-                        <img src={`http://localhost:3000/app_images/profile_pictures/${postDetails.owner.profilePictureUrl}`} alt="Author's profile piscture"/>
+                        <img src={`http://localhost:3000/app_images/profile_pictures/${postDetails.owner.profilePictureUrl}`} alt="Author's profile picture" />
                     </Link>
                     <Link to={`/user/${postDetails.owner.id}`}>
                         <span>{`${postDetails.owner.name} ${postDetails.owner.surname}`}</span>
@@ -55,7 +60,7 @@ const Post = ({ id }) => {
             <div>
                 {postDetails.text}
             </div>
-            <img src={`http://localhost:3000/app_images/posts/${postDetails.imageUrl}`} alt="Post picture"/>
+            <img src={`http://localhost:3000/app_images/posts/${postDetails.imageUrl}`} alt="Post picture" />
         </div>
     );
 };
