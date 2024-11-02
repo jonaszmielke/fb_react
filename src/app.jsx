@@ -48,7 +48,7 @@ const App = () => {
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
                 <Routes>
-                    <Route path="/user/:id" element={<User />} />
+                    <Route path="/user/:userid" element={<User />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/" element={<LoginPage />} />
                 </Routes>
