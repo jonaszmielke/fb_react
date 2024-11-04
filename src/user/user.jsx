@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import fetchUsersPosts from "../query/fetchusersposts";
+import fetchFriends from "../query/fetchfriends";
 import "./user.css";
 
 import Header from "../header";
@@ -12,19 +13,17 @@ const User = () => {
     const userjwt = Cookies.get('userjwt');
     const { userid } = useParams();
 
+    //posts
     const [posts, setPosts] = useState([]);
     const [depleted, setDepleted] = useState(false);
 
     useEffect(() => {
-        // Scroll to top on component mount
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
-        // Load initial posts if not depleted
         if (!depleted) {
             requestPosts(posts);
         }
 
-        // Scroll handler for loading more posts
         const handleScroll = () => {
             if (!depleted && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
                 requestPosts(posts);
@@ -38,21 +37,40 @@ const User = () => {
     }, [posts, depleted, userid]);
 
     async function requestPosts(currentPosts) {
-    try {
-        const new_posts = await fetchUsersPosts(userid, userjwt, currentPosts);
-        console.log("requestPosts new_posts:", new_posts);
+        try {
+            const new_posts = await fetchUsersPosts(userid, userjwt, currentPosts);
+            console.log("requestPosts new_posts:", new_posts);
 
-        if (new_posts.allPostsDepleted) {
-            console.log('All posts depleted');
-            setDepleted(true);
-            return;
+            if (new_posts.allPostsDepleted) {
+                console.log('All posts depleted');
+                setDepleted(true);
+                return;
+            }
+
+            setPosts((prevPosts) => [...prevPosts, ...new_posts.postids]);
+        } catch (error) {
+            console.error("Error fetching posts:", error);
         }
-
-        setPosts((prevPosts) => [...prevPosts, ...new_posts.postids]);
-    } catch (error) {
-        console.error("Error fetching posts:", error);
     }
-}
+
+
+    //friends
+    const [friends, setFriends] = useState([]);
+
+    async function requestFriends() {
+        try{
+            const result = await fetchFriends(userid, userjwt);
+            console.log('friends:', result);
+            setFriends(result);
+        } catch (error){
+            console.error("Error fetching friends:", error);
+        }
+    }
+
+    useEffect(() => {
+        requestFriends();
+    }, []);
+
 
     return (
         <div id="main">
@@ -66,7 +84,7 @@ const User = () => {
                         </div>
                         <div className="stats">
                             <h1>imie nazwisko</h1>
-                            <p>x znajomi • x wspólni znajomi</p>
+                            <p>{friends.length} znajomi • x wspólni znajomi</p>
                         </div>
                         <div className="">znajomi button</div>
                     </section>
@@ -80,7 +98,24 @@ const User = () => {
                     <div>
                         informacje
                         zdjecia
-                        znajomi
+                        <div id="friends" className="friends">
+                            <div>
+                                <h2>Znajomi</h2>
+                                <p>Pokaż wszystkich znajomych</p>
+                                <p className="friendStats">{friends.length} (wspólnych: x)</p>
+                            </div>
+                            <div>
+                                {friends.length > 0 ? friends.map((friend) => (
+                                    <div key={friend.id} className="friend">
+                                        <img 
+                                            src={`http://localhost:3000/app_images/profile_pictures/${friend.profilePictureUrl}`} 
+                                            alt="friend profile picture" 
+                                        />
+                                        <p>{friend.name} {friend.surname}</p>
+                                    </div>
+                                )) : <p>No friends to show</p>}
+                            </div>
+                        </div>
                     </div>
                     <div id="userposts" className="userposts">
                         {posts.map((id) => (

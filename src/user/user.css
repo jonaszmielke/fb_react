@@ -40,9 +40,75 @@
 
 }
 
-.userHeader>div>section:nth-of-type(3){}
 
 .userbody>section:nth-of-type(2){
     display: grid;
     grid-template-columns: 40% 60%;
 }
+
+
+
+
+.friends {
+    width: 450px;
+    background-color: white;
+    border-radius: 20px;
+    border: 1px solid grey;
+    padding: 20px;
+}
+
+.friends > div:first-child {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.friends > div:first-child h2 {
+    margin: 0;
+    font-size: 20px;
+    width: 40%;
+}
+
+.friends > div:first-child p:first-of-type {
+    margin: 0;
+    width: 60%;
+    font-size: 14px;
+    color: grey;
+    cursor: pointer;
+    text-align: right;
+}
+
+.friends > div:first-child p.friendStats {
+    width: 60%;
+    margin-top: 5px;
+    font-size: 14px;
+    color: grey;
+}
+
+.friends > div:last-child {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.friend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.friend img {
+    height: 90px;
+    width: 90px;
+    border-radius: 10px;
+    background-color: grey;
+    object-fit: cover;
+}
+
+.friend p {
+    margin-top: 5px;
+    font-size: 12px;
+}
+
