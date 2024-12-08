@@ -14,19 +14,19 @@ const User = () => {
     const { userid } = useParams();
 
     //posts
-    const [posts, setPosts] = useState([]);
+    const [userPosts, setUserPosts] = useState([]);
     const [depleted, setDepleted] = useState(false);
 
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
         if (!depleted) {
-            requestPosts(posts);
+            requestPosts(userPosts);
         }
 
         const handleScroll = () => {
             if (!depleted && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                requestPosts(posts);
+                requestPosts(userPosts);
             }
         };
 
@@ -34,7 +34,7 @@ const User = () => {
 
         // Clean up scroll event listener
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [posts, depleted, userid]);
+    }, [userPosts, depleted, userid]);
 
     async function requestPosts(currentPosts) {
         try {
@@ -47,7 +47,7 @@ const User = () => {
                 return;
             }
 
-            setPosts((prevPosts) => [...prevPosts, ...new_posts.postids]);
+            setUserPosts((prevPosts) => [...prevPosts, ...new_posts.postids]);
         } catch (error) {
             console.error("Error fetching posts:", error);
         }
@@ -118,7 +118,7 @@ const User = () => {
                         </div>
                     </div>
                     <div id="userposts" className="userposts">
-                        {posts.map((id) => (
+                        {userPosts.map((id) => (
                             <Post key={id} id={id} />
                         ))}
                     </div>               
