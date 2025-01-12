@@ -44,6 +44,23 @@ const User = () => {
         return userData?.mutual_friends || 0;
     };
 
+    const displayUserName = (userData, isUserDataLoading) => {
+        if (isUserDataLoading || !userData) {
+            return (
+                <div className="post">
+                    <p>...</p>
+                </div>
+            );
+        }
+
+        return `${userData.name} ${userData.surname}`
+            .split(' ')                // Split the string into words
+            .map(word =>               // Capitalize the first letter of each word
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(' '); 
+    }
+
 
     //getting posts
     async function requestPosts(currentPosts) {
@@ -116,7 +133,7 @@ const User = () => {
                             />
                         </div>
                         <div className="stats">
-                            <h1>imie nazwisko</h1>
+                            <h1>{displayUserName(userData, isUserDataLoading)}</h1>
                             <p>
                                 {friends.length} znajomi • {displayMutualFriends(userData, isUserDataLoading)} wspólni znajomi
                             </p>
