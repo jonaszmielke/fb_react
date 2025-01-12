@@ -43,8 +43,13 @@ header>div:nth-of-type(2){
     justify-content: center;
     color: #0866ff;
 }
-header>div:nth-of-type(2)>h1{
+header>div:nth-of-type(2)>a{
+    text-decoration: none;
+}
+header>div:nth-of-type(2)>a>h1{
     margin: 0px;
+    text-decoration: none;
+    color: #0866ff;
 }
 
 header>div:nth-of-type(3){

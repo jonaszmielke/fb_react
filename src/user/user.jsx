@@ -138,7 +138,9 @@ const User = () => {
                                 {friends.length} znajomi • {displayMutualFriends(userData, isUserDataLoading)} wspólni znajomi
                             </p>
                         </div>
-                        <div className="">znajomi button</div>
+                        <div className="">
+                            <button id="add_friend_button" className="add_friend_button">Dodaj znajomego</button>
+                        </div>
                     </section>
                 </div>
             </div>
