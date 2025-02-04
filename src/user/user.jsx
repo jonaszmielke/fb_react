@@ -11,6 +11,7 @@ import "./user.css";
 
 import Header from "../header";
 import Post from "../post/post";
+import FriendsPopup from "../components/friendsPopup";
 
 const User = () => {
 
@@ -35,9 +36,7 @@ const User = () => {
     const displayMutualFriends = (userData, isUserDataLoading) => {
         if (isUserDataLoading || !userData) {
             return (
-                <div className="post">
-                    <p>...</p>
-                </div>
+                'loading'
             );
         }
 
@@ -47,9 +46,7 @@ const User = () => {
     const displayUserName = (userData, isUserDataLoading) => {
         if (isUserDataLoading || !userData) {
             return (
-                <div className="post">
-                    <p>...</p>
-                </div>
+                'loading'
             );
         }
 
@@ -118,6 +115,7 @@ const User = () => {
         requestFriends();
     }, [userid, userjwt]);
 
+    const [showFriendsPopup, setShowFriendsPopup] = useState(false);
 
     return (
         <div id="main">
@@ -155,8 +153,8 @@ const User = () => {
                         <div id="friends" className="friends">
                             <div>
                                 <h2>Znajomi</h2>
-                                <p>Pokaż wszystkich znajomych</p>
-                                <p className="friendStats">{friends.length} (wspólnych: x)</p>
+                                <p onClick={() => setShowFriendsPopup(true)}>Pokaż wszystkich znajomych</p>
+                                <p className="friendStats">{friends.length} (wspólnych: {displayMutualFriends(userData, isUserDataLoading)})</p>
                             </div>
                             <div className="friends-grid">
                                 {friends.length > 0 ? (
@@ -185,11 +183,14 @@ const User = () => {
                     </div>
                     <div id="userposts" className="userposts">
                         {userPosts.map((id) => (
-                            <Post key={id} id={id} />
+                            <Post key={`post ${id}`} id={id} />
                         ))}
                     </div>               
                 </section>
             </div>
+
+            <FriendsPopup trigger={showFriendsPopup} setTrigger={setShowFriendsPopup}/>
+
         </div>
     );
 }

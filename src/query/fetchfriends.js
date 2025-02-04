@@ -1,6 +1,6 @@
-const fetchFriends = async (userid, jwt) => {
+const fetchFriends = async (userid, jwt, ammount = 9, pageNumber = 0) => {
 
-    let url = `http://localhost:3000/api/user/friends/${userid}`;
+    let url = `http://localhost:3000/api/user/friends/${userid}?ammount=${ammount}pageNumber=${pageNumber}`;
 
     const response = await fetch(url, {
         method: 'GET',

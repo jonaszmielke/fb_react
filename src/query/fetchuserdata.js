@@ -1,7 +1,7 @@
 const fetchUserData = async ({ queryKey, includeMutualFriends, jwt }) => {
 
     const userid = queryKey[1];
-    let url = `http://localhost:3000/api/user/${userid}?includeMutualFriends=${includeMutualFriends}`;
+    const url = `http://localhost:3000/api/user/${userid}?includeMutualFriends=${includeMutualFriends ? "true" : "false"}`;
 
     const response = await fetch(url, {
         method: 'GET',

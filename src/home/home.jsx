@@ -69,7 +69,7 @@ const Home = () => {
                 </section>
                 <section id="posts" className="posts">
                     {posts.map((id) => (
-                        <Post key={id} id={id} />
+                        <Post key={`post ${id}`} id={id} />
                     ))}
                 </section>
                 <section></section>
