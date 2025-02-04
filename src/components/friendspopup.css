@@ -55,7 +55,8 @@
     margin-bottom: 10px;
     width: 100%;
     flex-grow: 1; /* Ensures this section takes up the remaining space */
-    overflow-y: auto; /* Adds scroll for the content */
+    overflow-y: auto;
+    overflow-x: hidden; /* Adds scroll for the content */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,6 +76,10 @@
     cursor: pointer; /* Adds clickability */
 
     width: 90%;
+
+    transform: translateX(100px);
+    opacity: 0;
+    transition: 300ms;
 }
 
 .list-friend:hover {
@@ -118,4 +123,9 @@
 
 .list-friend button:hover {
     background-color: #166fe5;
+}
+
+.show {
+    transform: translateX(0);
+    opacity: 1;
 }
