@@ -189,7 +189,7 @@ const User = () => {
                 </section>
             </div>
 
-            <FriendsPopup trigger={showFriendsPopup} setTrigger={setShowFriendsPopup}/>
+            <FriendsPopup trigger={showFriendsPopup} setTrigger={setShowFriendsPopup} userid={userid}/>
 
         </div>
     );
