@@ -46,7 +46,7 @@ function Friend({ data, forwardRef }) {
                 }
             }}
         >
-            <img src={data.profilePictureUrl} alt="profilowe"/>
+            <img src={`http://localhost:3000/app_images/profile_pictures/${data?.profilePictureUrl || "default.jpg"}`} alt="profilowe"/>
             <div>
                 <p>{data.name} {data.surname}</p>
             </div>

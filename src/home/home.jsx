@@ -47,7 +47,7 @@ const Home = () => {
     async function requestfyp(currentPosts) {
             
         const new_posts = await fetchFyp(currentPosts, userjwt);
-        console.log(new_posts);
+        //console.log(new_posts);
 
         if (new_posts.allPostsDepleted) {
             console.log('All posts depleted, stopping the fyp useEffect');
@@ -55,7 +55,7 @@ const Home = () => {
             depletedRef.current = true;
             return;
         }
-        console.log(`Appending new posts ${new_posts.postids}\nPosts to omit: ${currentPosts}`);
+        //console.log(`Appending new posts ${new_posts.postids}\nPosts to omit: ${currentPosts}`);
         setPosts((prevPosts) => prevPosts.concat(new_posts.postids));
     }
 

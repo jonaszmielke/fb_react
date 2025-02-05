@@ -4,7 +4,7 @@ const fetchUsersPosts = async (userid, userjwt, omit) => {
 
     if(omit)
         url += `?${new URLSearchParams({ omit: JSON.stringify(omit) }).toString()}`;
-    console.log(url);
+    //console.log(url);
 
 
     const response = await fetch(url, {
@@ -23,7 +23,7 @@ const fetchUsersPosts = async (userid, userjwt, omit) => {
     if(data.allPostsDepleted)
         return {'allPostsDepleted': true};
 
-    console.log("fetchUsersPosts data:", data);
+    //console.log("fetchUsersPosts data:", data);
     return {
         'postids': data.postids,
         'allPostsDepleted': false

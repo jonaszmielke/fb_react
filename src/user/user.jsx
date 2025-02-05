@@ -63,7 +63,7 @@ const User = () => {
     async function requestPosts(currentPosts) {
         try {
             const new_posts = await fetchUsersPosts(userid, userjwt, currentPosts);
-            console.log("requestPosts new_posts:", new_posts);
+            //console.log("requestPosts new_posts:", new_posts);
     
             if (new_posts.allPostsDepleted) {
                 console.log('All posts depleted');
@@ -88,7 +88,7 @@ const User = () => {
     
         const handleScroll = () => {
             if (!depleted && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                requestPosts([]);
+                requestPosts(userPosts);
             }
         };
     
@@ -104,7 +104,7 @@ const User = () => {
     async function requestFriends() {
         try {
             const result = await fetchFriends(userid, userjwt);
-            console.log('friends:', result);
+            //console.log('friends:', result);
             setFriends(result);
         } catch (error) {
             console.error("Error fetching friends:", error);
@@ -126,18 +126,21 @@ const User = () => {
                     <section>
                         <div className="profilePicture">
                             <img
-                                src={userData?.profilePicture || "default-placeholder.png"}
+                                src={`http://localhost:3000/app_images/profile_pictures/${userData?.profilePicture || "default.jpg"}`}
                                 alt="profile picture"
                             />
                         </div>
-                        <div className="stats">
+                        <div className="user-stats">
                             <h1>{displayUserName(userData, isUserDataLoading)}</h1>
                             <p>
                                 {friends.length} znajomi • {displayMutualFriends(userData, isUserDataLoading)} wspólni znajomi
                             </p>
                         </div>
-                        <div className="">
-                            <button id="add_friend_button" className="add_friend_button">Dodaj znajomego</button>
+                        <div className="user-buttons">
+                            <button className="add_friend_button">
+                                <img src="http://localhost:3000/app_images/site/add-friend.svg" alt="Add Friend" className="add_friend_icon"/>
+                                Add Friend
+                            </button>
                         </div>
                     </section>
                 </div>
