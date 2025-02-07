@@ -1,11 +1,10 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import Cookies from 'js-cookie';
 
-import fetchUsersPosts from "../query/fetchusersposts";
-import fetchFriends from "../query/fetchfriends";
 import fetchUserData from "../query/fetchuserdata";
+import fetchUsersPosts from "../query/fetchusersposts";
 
 import "./user.css";
 
@@ -19,101 +18,40 @@ const User = () => {
     const userjwt = Cookies.get('userjwt');
     const { userid } = useParams();
 
-    //posts
-    const [userPosts, setUserPosts] = useState([]);
-    const [depleted, setDepleted] = useState(false);
-
     //user data
     const { data: userData, isLoading: isUserDataLoading } = useQuery({
         queryKey: ["userData", userid],
-        queryFn: () => fetchUserData({
-            queryKey: ["userData", userid],
-            includeMutualFriends: true,
-            jwt: userjwt
-        }),
+        queryFn: ({ queryKey }) => {
+            return fetchUserData({queryKey, userjwt});
+        }
+    });
+    if (!isUserDataLoading && userData) console.log(userData.friends.slice(0, 9)); //remove later
+
+
+
+
+
+
+    //posts
+    const {
+        data: postsData,
+        fetchNextPage,
+        hasNextPage,
+        isLoading: postsLoading,
+        isError: isPostsError,
+    } = useInfiniteQuery({
+        queryKey: ['user_posts', userid],
+        queryFn: ({ pageParam = 0 }) => 
+            fetchUsersPosts({ queryKey: ['user_posts', userid], jwt: userjwt, page: pageParam }),
+        getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined
     });
 
-    const displayMutualFriends = (userData, isUserDataLoading) => {
-        if (isUserDataLoading || !userData) {
-            return (
-                'loading'
-            );
-        }
 
-        return userData?.mutual_friends || 0;
-    };
-
-    const displayUserName = (userData, isUserDataLoading) => {
-        if (isUserDataLoading || !userData) {
-            return (
-                'loading'
-            );
-        }
-
-        return `${userData.name} ${userData.surname}`
-            .split(' ')                // Split the string into words
-            .map(word =>               // Capitalize the first letter of each word
-                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-            )
-            .join(' '); 
-    }
+    const userPosts = postsData?.pages.flatMap(page => page.list);
+    if (!postsLoading) console.log(userPosts);
 
 
-    //getting posts
-    async function requestPosts(currentPosts) {
-        try {
-            const new_posts = await fetchUsersPosts(userid, userjwt, currentPosts);
-            //console.log("requestPosts new_posts:", new_posts);
     
-            if (new_posts.allPostsDepleted) {
-                console.log('All posts depleted');
-                setDepleted(true);
-                return;
-            }
-    
-            setUserPosts((prevPosts) => [...prevPosts, ...new_posts.postids]);
-        } catch (error) {
-            console.error("Error fetching posts:", error);
-        }
-    }
-
-    //displaing posts
-    useEffect(() => {
-
-        setUserPosts([]);
-        setDepleted(false);
-    
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        requestPosts([]);
-    
-        const handleScroll = () => {
-            if (!depleted && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                requestPosts(userPosts);
-            }
-        };
-    
-        window.addEventListener('scroll', handleScroll);
-    
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [userid]); 
-
-
-    //getting friends
-    const [friends, setFriends] = useState([]);
-
-    async function requestFriends() {
-        try {
-            const result = await fetchFriends(userid, userjwt);
-            //console.log('friends:', result);
-            setFriends(result);
-        } catch (error) {
-            console.error("Error fetching friends:", error);
-        }
-    }
-
-    useEffect(() => {
-        requestFriends();
-    }, [userid, userjwt]);
 
     const [showFriendsPopup, setShowFriendsPopup] = useState(false);
 
@@ -125,15 +63,18 @@ const User = () => {
                     <section>tło</section>
                     <section>
                         <div className="profilePicture">
+                            {isUserDataLoading?
+                            "loading" :
                             <img
-                                src={`http://localhost:3000/app_images/profile_pictures/${userData?.profilePicture || "default.jpg"}`}
+                                src={`http://localhost:3000/app_images/profile_pictures/${userData.profile_picture_url || "default.jpg"}`}
                                 alt="profile picture"
                             />
+                            }
                         </div>
                         <div className="user-stats">
-                            <h1>{displayUserName(userData, isUserDataLoading)}</h1>
+                            <h1>{isUserDataLoading? "loading" : userData.name + " " + userData.surname}</h1>
                             <p>
-                                {friends.length} znajomi • {displayMutualFriends(userData, isUserDataLoading)} wspólni znajomi
+                                {isUserDataLoading? "loading" : userData.friends_ammount} znajomi • {isUserDataLoading? "loading" : userData.mutual_friends_ammount} wspólni znajomi
                             </p>
                         </div>
                         <div className="user-buttons">
@@ -157,11 +98,11 @@ const User = () => {
                             <div>
                                 <h2>Znajomi</h2>
                                 <p onClick={() => setShowFriendsPopup(true)}>Pokaż wszystkich znajomych</p>
-                                <p className="friendStats">{friends.length} (wspólnych: {displayMutualFriends(userData, isUserDataLoading)})</p>
+                                <p className="friendStats">{isUserDataLoading? "loading" : userData.friends_ammount} (wspólnych: {isUserDataLoading? "loading" : userData.mutual_friends_ammount})</p>
                             </div>
                             <div className="friends-grid">
-                                {friends.length > 0 ? (
-                                    friends.map((friend) => (
+                                {!isUserDataLoading && userData.friends.length > 0 ? (
+                                    userData.friends.slice(0, 9).map((friend) => (
                                         <Link
                                             to={`/user/${friend.id}`}
                                             key={friend.id}
@@ -185,9 +126,11 @@ const User = () => {
                         </div>
                     </div>
                     <div id="userposts" className="userposts">
-                        {userPosts.map((id) => (
-                            <Post key={`post ${id}`} id={id} />
-                        ))}
+                        {postsLoading? "" :
+                            userPosts.map((id) => (
+                                <Post key={`post ${id}`} id={id} />
+                            ))
+                        }
                     </div>               
                 </section>
             </div>

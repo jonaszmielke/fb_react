@@ -1,18 +1,18 @@
-const fetchUserData = async ({ queryKey, includeMutualFriends, jwt }) => {
+const fetchUserData = async ({queryKey, userjwt}) => {
 
     const userid = queryKey[1];
-    const url = `http://localhost:3000/api/user/${userid}?includeMutualFriends=${includeMutualFriends ? "true" : "false"}`;
+    const url = `http://localhost:3000/api/user/data/${userid}`;
 
     const response = await fetch(url, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${jwt}`,
+            'Authorization': `Bearer ${userjwt}`,
             'Content-Type': 'application/json'
         },
     });
 
     if (!response.ok) {
-        throw new Error("Failed to fetch friends");
+        throw new Error("Failed to fetch friends list");
     }
 
     const result = await response.json();

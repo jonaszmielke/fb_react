@@ -1,33 +1,23 @@
-const fetchUsersPosts = async (userid, userjwt, omit) => {
+const fetchUsersPosts = async ({ queryKey, jwt, page }) => {
 
-    let url = `http://localhost:3000/api/user/posts/${userid}`;
-
-    if(omit)
-        url += `?${new URLSearchParams({ omit: JSON.stringify(omit) }).toString()}`;
-    //console.log(url);
-
+    const userid = queryKey[1];
+    const url = `http://localhost:3000/api/user/posts/list/${userid}?page=${page}`;
 
     const response = await fetch(url, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${userjwt}`,
+            'Authorization': `Bearer ${jwt}`,
             'Content-Type': 'application/json'
         },
     });
 
-    if (!response.ok)
-        throw new Error(`User ${userid}'s ids fetch not ok, omit = ${omit}`);
+    if (!response.ok) {
+        throw new Error("Failed to fetch friends list");
+    }
 
-    const data = await response.json();
+    const result = await response.json();
 
-    if(data.allPostsDepleted)
-        return {'allPostsDepleted': true};
-
-    //console.log("fetchUsersPosts data:", data);
-    return {
-        'postids': data.postids,
-        'allPostsDepleted': false
-    };
+    return result;
 };
 
 export default fetchUsersPosts;
