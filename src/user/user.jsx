@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import Cookies from 'js-cookie';
 
@@ -18,6 +18,7 @@ const User = () => {
     const userjwt = Cookies.get('userjwt');
     const { userid } = useParams();
 
+
     //user data
     const { data: userData, isLoading: isUserDataLoading } = useQuery({
         queryKey: ["userData", userid],
@@ -25,11 +26,6 @@ const User = () => {
             return fetchUserData({queryKey, userjwt});
         }
     });
-    if (!isUserDataLoading && userData) console.log(userData.friends.slice(0, 9)); //remove later
-
-
-
-
 
 
     //posts
@@ -38,7 +34,7 @@ const User = () => {
         fetchNextPage,
         hasNextPage,
         isLoading: postsLoading,
-        isError: isPostsError,
+        isError: isPostsError
     } = useInfiniteQuery({
         queryKey: ['user_posts', userid],
         queryFn: ({ pageParam = 0 }) => 
@@ -46,11 +42,10 @@ const User = () => {
         getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined
     });
 
-
+    //transforming list of pages into a list of postids
     const userPosts = postsData?.pages.flatMap(page => page.list);
-    if (!postsLoading) console.log(userPosts);
 
-
+    //observer to fetch more posts when scrolled to the last one
     const observer = useRef();
     const lastPostRef = useCallback(node => {
         if (postsLoading) return;
@@ -64,10 +59,9 @@ const User = () => {
     }, [postsLoading, hasNextPage]);
 
 
-
-    
-
+    //friends list popup
     const [showFriendsPopup, setShowFriendsPopup] = useState(false);
+
 
     return (
         <div id="main">
