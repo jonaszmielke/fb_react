@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import Cookies from 'js-cookie';
 
@@ -49,6 +49,20 @@ const User = () => {
 
     const userPosts = postsData?.pages.flatMap(page => page.list);
     if (!postsLoading) console.log(userPosts);
+
+
+    const observer = useRef();
+    const lastPostRef = useCallback(node => {
+        if (postsLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasNextPage) {
+                fetchNextPage();
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [postsLoading, hasNextPage]);
+
 
 
     
@@ -126,10 +140,17 @@ const User = () => {
                         </div>
                     </div>
                     <div id="userposts" className="userposts">
-                        {postsLoading? "" :
-                            userPosts.map((id) => (
-                                <Post key={`post ${id}`} id={id} />
-                            ))
+                        {
+                            isPostsError ? "Error loading posts" :
+                            postsLoading ? "" :
+                                userPosts.map((id, index) => {
+                                    const isLast = index === userPosts.length - 1;
+                                    return (<Post 
+                                        forwardRef={isLast ? lastPostRef : null} 
+                                        key={`post ${id}`} 
+                                        id={id} 
+                                    />)
+                                })
                         }
                     </div>               
                 </section>

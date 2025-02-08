@@ -12,7 +12,7 @@ const date_options = {
     hour12: false
 };
 
-const Post = ({ id }) => {
+const Post = ({ id, forwardRef }) => {
     const userjwt = Cookies.get('userjwt');
 
     const { data: postDetails, isLoading } = useQuery({
@@ -42,7 +42,7 @@ const Post = ({ id }) => {
     date = date.toLocaleString('en-UK', date_options);
     
     return (
-        <div className="post">
+        <div ref={forwardRef} className="post">
             <div className="postHeader">
                 <div>
                     <Link to={`/user/${postDetails.owner.id}`}>
