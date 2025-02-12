@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .postHeader{
@@ -86,6 +87,66 @@
 .post>img{
     min-height: 680px;
     background-color: grey;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+}
+
+
+.post-footer {
+    width: 95%;
+    margin: 10px auto;
+    padding: 0px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+        "first first"
+        "second third";
+    gap: 10px;
+}
+
+.post-footer > .stats {
+    grid-area: first;
+    width: 100%;
+    height: 20px;
+    padding-bottom: 10px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border-bottom: 0.5px solid lightgray;
+}
+.post-footer > div > img{
+    height: 20px;
+    width: 20px;
+    margin: 0px 10px;
+}
+.post-footer > div > p{
+    margin: 0px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.post-footer > .like{
+    grid-area: second;
+    margin-left: 90px;
+}
+.post-footer > .comment {
+    grid-area: third;
+    margin-right: 90px;
+}
+.post-footer > .like, .comment {
+    width: 150px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.post-footer > .like:hover, .comment:hover{
+
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
 }

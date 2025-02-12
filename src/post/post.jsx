@@ -61,6 +61,20 @@ const Post = ({ id, forwardRef }) => {
                 {postDetails.text}
             </div>
             <img src={`http://localhost:3000/app_images/posts/${postDetails.imageUrl}`} alt="Post picture" />
+            <div className="post-footer">
+                <div className="stats">
+                    <img src="http://localhost:3000/app_images/site/like.svg" alt="Ammount of likes" />
+                    <p>{postDetails.likeCount}</p>
+                </div>
+                <div className="like">
+                    <img src="http://localhost:3000/app_images/site/like2.svg" alt="Like" />
+                    <p>Like</p>
+                </div>
+                <div className="comment">
+                    <img src="http://localhost:3000/app_images/site/comment.svg" alt="Comment" />
+                    <p>Comment</p>
+                </div>
+            </div>
         </div>
     );
 };
