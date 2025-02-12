@@ -100,8 +100,6 @@ const User = () => {
                 </section>
                 <section>
                     <div>
-                        informacje
-                        zdjecia
                         <div id="friends" className="friends">
                             <div>
                                 <h2>Znajomi</h2>

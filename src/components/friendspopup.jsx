@@ -1,13 +1,14 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 import './friendspopup.css';
 import fetchUserFriendsList from '../query/fetchuserfriendslist';
 
-function Friend({ data, forwardRef }) {
+function Friend({ data, forwardRef, props }) {
     const localRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -44,6 +45,10 @@ function Friend({ data, forwardRef }) {
                         forwardRef.current = node;
                     }
                 }
+            }}
+            onClick={() => {
+                props.setTrigger(false);
+                navigate(`/user/${data.id}`);
             }}
         >
             <img src={`http://localhost:3000/app_images/profile_pictures/${data?.profilePictureUrl || "default.jpg"}`} alt="profilowe"/>
@@ -101,6 +106,7 @@ function FriendsPopup(props) {
                                     key={friend.id} 
                                     data={friend} 
                                     forwardRef={isLast ? lastFriendRef : null}
+                                    props={props}
                                 />
                             );
                         })
