@@ -131,6 +131,10 @@
     grid-area: second;
     margin-left: 90px;
 }
+.post-footer > .liked > p{
+    color: blue;
+    font-weight: 700 !important;
+}
 .post-footer > .comment {
     grid-area: third;
     margin-right: 90px;

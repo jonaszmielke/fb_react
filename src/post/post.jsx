@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchPost from "../query/fetchpost";
 import "./post.css";
 import { Link } from "react-router-dom";
 import Cookies from 'js-cookie';
+
+import likePost from "../query/likepost";
 
 const date_options = {
     month: 'short',
@@ -14,6 +16,7 @@ const date_options = {
 
 const Post = ({ id, forwardRef }) => {
     const userjwt = Cookies.get('userjwt');
+    const queryClient = useQueryClient();
 
     const { data: postDetails, isLoading } = useQuery({
         queryKey: ["post", id],
@@ -40,6 +43,25 @@ const Post = ({ id, forwardRef }) => {
 
     let date = new Date(postDetails.createdAt);
     date = date.toLocaleString('en-UK', date_options);
+
+
+    const togglePostLike = (postid, isLiked) => async () => {
+
+        const success = await likePost({postid, isLiked, userjwt});
+        if (success) {
+
+            queryClient.setQueryData(["post", postid], (oldPost) => {
+                if (!oldPost) return oldPost; // in case data isn't there yet
+    
+                return {
+                    ...oldPost,
+                    isLikedByUser: !oldPost.isLikedByUser,
+                    likeCount: oldPost.isLikedByUser ? oldPost.likeCount - 1 : oldPost.likeCount + 1
+                };
+            });
+        }
+    }
+
     
     return (
         <div ref={forwardRef} className="post">
@@ -66,9 +88,19 @@ const Post = ({ id, forwardRef }) => {
                     <img src="http://localhost:3000/app_images/site/like.svg" alt="Ammount of likes" />
                     <p>{postDetails.likeCount}</p>
                 </div>
-                <div className="like">
-                    <img src="http://localhost:3000/app_images/site/like2.svg" alt="Like" />
-                    <p>Like</p>
+                <div className={`like ${postDetails.isLikedByUser ? 'liked' : ''}`} onClick={togglePostLike(id, postDetails.isLikedByUser)}>
+
+                    {postDetails.isLikedByUser ? (
+                        <>
+                            <img src="http://localhost:3000/app_images/site/liked.svg" alt="Liked" />
+                            <p>Liked</p>
+                        </>
+                    ) : (
+                        <>
+                            <img src="http://localhost:3000/app_images/site/like2.svg" alt="Like" />
+                            <p>Like</p>
+                        </>
+                    )}
                 </div>
                 <div className="comment">
                     <img src="http://localhost:3000/app_images/site/comment.svg" alt="Comment" />
