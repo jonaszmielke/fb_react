@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import fetchPost from "../query/fetchpost";
 import "./post.css";
@@ -5,6 +6,8 @@ import { Link } from "react-router-dom";
 import Cookies from 'js-cookie';
 
 import likePost from "../query/likepost";
+
+import CommentsPopup from "../components/commentspopup/commentspopup";
 
 const date_options = {
     month: 'short',
@@ -24,6 +27,8 @@ const Post = ({ id, forwardRef }) => {
             return fetchPost({queryKey, userjwt});
         }
     });
+
+    const [showCommentsPopup, setShowCommentsPopup] = useState(false);
 
     if (isLoading) {
         return (
@@ -102,11 +107,14 @@ const Post = ({ id, forwardRef }) => {
                         </>
                     )}
                 </div>
-                <div className="comment">
+                <div className="comment" onClick={() => setShowCommentsPopup(true)}>
                     <img src="http://localhost:3000/app_images/site/comment.svg" alt="Comment" />
                     <p>Comment</p>
                 </div>
             </div>
+
+            <CommentsPopup trigger={showCommentsPopup} setTrigger={setShowCommentsPopup} postid={id}/>
+
         </div>
     );
 };

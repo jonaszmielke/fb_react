@@ -10,7 +10,7 @@ import "./user.css";
 
 import Header from "../header";
 import Post from "../post/post";
-import FriendsPopup from "../components/friendsPopup";
+import FriendsPopup from "../components/friendspopup/friendspopup";
 
 const User = () => {
 

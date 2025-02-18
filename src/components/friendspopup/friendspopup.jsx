@@ -3,8 +3,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
+import '../popup.css';
 import './friendspopup.css';
-import fetchUserFriendsList from '../query/fetchuserfriendslist';
+import fetchUserFriendsList from '../../query/fetchuserfriendslist';
 
 function Friend({ data, forwardRef, props }) {
     const localRef = useRef();
@@ -91,12 +92,12 @@ function FriendsPopup(props) {
     }, [isLoading, hasNextPage]);
 
     return (props.trigger) ? (
-        <div className='friends-popup'>
+        <div className='popup'>
             <div className='popup-inner'>
                 <div className='close-header'>
                     <button className='closeBtn' onClick={() => props.setTrigger(false)}>X</button>
                 </div>
-                <div className='friends-section'>
+                <div className='content-section'>
                     {isError ? "Error loading friends list" :
                         isLoading ? <p>Loading...</p> : 
                         friends_list.map((friend, index) => {

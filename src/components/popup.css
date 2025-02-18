@@ -1,4 +1,4 @@
-.friends-popup {
+.popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -50,7 +50,7 @@
     color: #000;
 }
 
-.popup-inner .friends-section {
+.popup-inner .content-section {
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
@@ -63,69 +63,3 @@
     gap: 16px; /* Adds space between friend items */
 }
 
-.list-friend {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, transform 0.2s;
-
-    cursor: pointer; /* Adds clickability */
-
-    width: 90%;
-
-    transform: translateX(100px);
-    opacity: 0;
-    transition: 300ms;
-}
-
-.list-friend:hover {
-    background-color: #f0f2f5;
-    transform: translateY(-2px); /* Subtle lift on hover */
-}
-
-.list-friend img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 15px;
-    background-color: #ddd;
-}
-
-.list-friend div {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.list-friend p {
-    margin: 0;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-}
-
-.list-friend button {
-    background-color: #1877f2;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.list-friend button:hover {
-    background-color: #166fe5;
-}
-
-.show {
-    transform: translateX(0);
-    opacity: 1;
-}
