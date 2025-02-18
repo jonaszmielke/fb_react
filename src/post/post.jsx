@@ -90,8 +90,11 @@ const Post = ({ id, forwardRef }) => {
             <img src={`http://localhost:3000/app_images/posts/${postDetails.imageUrl}`} alt="Post picture" />
             <div className="post-footer">
                 <div className="stats">
-                    <img src="http://localhost:3000/app_images/site/like.svg" alt="Ammount of likes" />
-                    <p>{postDetails.likeCount}</p>
+                    <div>
+                        <img src="http://localhost:3000/app_images/site/like.svg" alt="Ammount of likes" />
+                        <p>{postDetails.likeCount}</p>    
+                    </div>
+                    <p>{postDetails.commentCount} comments</p>
                 </div>
                 <div className={`like ${postDetails.isLikedByUser ? 'liked' : ''}`} onClick={togglePostLike(id, postDetails.isLikedByUser)}>
 
