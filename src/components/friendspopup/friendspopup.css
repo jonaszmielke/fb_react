@@ -66,6 +66,9 @@
 }
 
 .friends-section {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
     width: 100%;
     flex-grow: 1;
     overflow-y: auto;

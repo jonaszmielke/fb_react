@@ -110,7 +110,7 @@ const Post = ({ id, forwardRef }) => {
                         </>
                     )}
                 </div>
-                <div className="comment" onClick={() => setShowCommentsPopup(true)}>
+                <div className="comment-button" onClick={() => setShowCommentsPopup(true)}>
                     <img src="http://localhost:3000/app_images/site/comment.svg" alt="Comment" />
                     <p>Comment</p>
                 </div>

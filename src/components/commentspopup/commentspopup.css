@@ -1,4 +1,7 @@
 .comments-section {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
     width: 100%;
     flex-grow: 1; 
     overflow-y: auto;
@@ -8,4 +11,57 @@
     justify-content: left;
     gap: 16px;
 
+    padding-left: 20px;
+}
+
+.comment {
+    width: 90%;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.comment:hover {
+    background-color: #fff;
+    cursor: auto;
+}
+
+.comment-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0; /* Prevents image from shrinking */
+}
+
+.comment-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: #f0f0f0; /* Light grey background */
+    border-radius: 15px; /* Optional: Add some border radius for rounded corners */
+    font-size: 1.1em; /* Increase the font size */
+}
+
+.comment-header {
+    margin: 10px 0px 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.comment-name {
+    font-weight: bold;
+}
+
+.comment-date {
+    font-size: 0.85em;
+    color: gray;
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+.comment-text {
+    padding: 0px 5px 0px 0px;
+    margin:  0px 0px 10px 15px;
+    font-weight: l;
 }

@@ -6,12 +6,39 @@ import fetchComments from '../../query/fetchcomments';
 
 import '../popup.css';
 import './commentspopup.css';
+import { data } from 'react-router-dom';
 
-const Comment = forwardRef(({ comment_data }, ref) => (
-    <div className='comment' ref={ref}>
-        <p>{comment_data.text}</p>
-    </div>
-));
+const date_options = {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+};
+
+
+const Comment = forwardRef(({ comment_data }, ref) => {
+    let date = new Date(comment_data.createdAt);
+    date = date.toLocaleString('en-UK', date_options);
+
+    return (
+        <span className='comment' ref={ref}>
+            <img 
+                src={`http://localhost:3000/app_images/profile_pictures/${comment_data?.owner.profilePictureUrl || "default.jpg"}`} 
+                alt="Profile"
+                className="comment-profile-pic"
+            />
+            <div className="comment-content">
+                <div className='comment-header'>
+                    <span className='comment-name'>{comment_data.owner.name} {comment_data.owner.surname}</span>
+                    <span className='comment-date'>{date}</span>
+                </div>
+                <p className='comment-text'>{comment_data.text}</p>
+            </div>
+        </span>
+    );
+});
+
 
 
 function CommentsPopup({ trigger, setTrigger, postid }) {
@@ -53,7 +80,6 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
                     <button className='closeBtn' onClick={() => setTrigger(false)}>X</button>
                 </div>
                 <div className='content-section, comments-section'>
-                    <p>Comments {postid}</p>
                     {isError ? "Error loading comments" :
                         isLoading ? <p>Loading...</p> : 
                             comments_list.map((comment, index) => {
