@@ -1,0 +1,11 @@
+.comments-section {
+    width: 100%;
+    flex-grow: 1; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: 16px;
+
+}

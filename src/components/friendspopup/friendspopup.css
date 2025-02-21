@@ -64,3 +64,14 @@
     transform: translateX(0);
     opacity: 1;
 }
+
+.friends-section {
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}

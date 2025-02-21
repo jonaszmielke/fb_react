@@ -53,13 +53,5 @@
 .popup-inner .content-section {
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 100%;
-    flex-grow: 1; /* Ensures this section takes up the remaining space */
-    overflow-y: auto;
-    overflow-x: hidden; /* Adds scroll for the content */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px; /* Adds space between friend items */
 }
 

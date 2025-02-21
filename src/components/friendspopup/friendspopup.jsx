@@ -97,7 +97,7 @@ function FriendsPopup(props) {
                 <div className='close-header'>
                     <button className='closeBtn' onClick={() => props.setTrigger(false)}>X</button>
                 </div>
-                <div className='content-section'>
+                <div className='content-section, friends-section'>
                     {isError ? "Error loading friends list" :
                         isLoading ? <p>Loading...</p> : 
                         friends_list.map((friend, index) => {
