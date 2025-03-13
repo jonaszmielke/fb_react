@@ -8,7 +8,7 @@ const Header = () => {
                 <input type="text" id="searchbar" placeholder="Search on fb app"/>
             </div>
             <div>
-                <Link to={"/home"}><h1>fb app</h1></Link>
+                <Link to={"/home/fyp"}><h1>fb app</h1></Link>
             </div>
             <div>
                 aaa

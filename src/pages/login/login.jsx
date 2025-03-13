@@ -31,7 +31,7 @@ const LoginPage = () => {
                         wrong.style.visibility = 'visible';
                     } else {
                         Cookies.set('userjwt', jwt.token, { sameSite: 'Lax' })
-                        navigate('/home');
+                        navigate('/home/fyp');
                     }
                 }}>
                     <p id="wrong" className="wrong">Wrong credentials</p>

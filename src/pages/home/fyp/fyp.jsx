@@ -1,14 +1,15 @@
 //import { token } from "../login/login";
-import "./home.css";
-
-import Header from "../header";
-import Post from "../post/post";
 import { useEffect, useState, useRef } from "react";
-import fetchFyp from "../query/fetchfyp";
+import fetchForYouPage from "../../../query/fetchfyp";
 import Cookies from 'js-cookie';
 
+import "./fyp.css";
 
-const Home = () => {
+import Header from "../../../components/header";
+import Post from "../../../components/post/post";
+
+
+const ForYouPage = () => {
     const userjwt = Cookies.get('userjwt');
 
     const [posts, setPosts] = useState([]);
@@ -28,12 +29,12 @@ const Home = () => {
     useEffect(() => {
 
         if(!depletedRef.current){
-            requestfyp(postsRef.current);
+            requestForYouPage(postsRef.current);
         }
 
         const handleScroll = () => {
             if (!depletedRef.current && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                requestfyp(postsRef.current);
+                requestForYouPage(postsRef.current);
             }
         };
 
@@ -44,13 +45,13 @@ const Home = () => {
         };
     }, []);
 
-    async function requestfyp(currentPosts) {
+    async function requestForYouPage(currentPosts) {
             
-        const new_posts = await fetchFyp(currentPosts, userjwt);
+        const new_posts = await fetchForYouPage(currentPosts, userjwt);
         //console.log(new_posts);
 
         if (new_posts.allPostsDepleted) {
-            console.log('All posts depleted, stopping the fyp useEffect');
+            console.log('All posts depleted, stopping the ForYouPage useEffect');
             setDepleted(true);
             depletedRef.current = true;
             return;
@@ -78,4 +79,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default ForYouPage;

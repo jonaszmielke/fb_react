@@ -3,14 +3,14 @@ import { useState, useRef, useCallback } from "react";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import Cookies from 'js-cookie';
 
-import fetchUserData from "../query/fetchuserdata";
-import fetchUsersPosts from "../query/fetchusersposts";
+import fetchUserData from "../../query/fetchuserdata";
+import fetchUsersPosts from "../../query/fetchusersposts";
 
 import "./user.css";
 
-import Header from "../header";
-import Post from "../post/post";
-import FriendsPopup from "../components/friendspopup/friendspopup";
+import Header from "../../components/header";
+import Post from "../../components/post/post";
+import FriendsPopup from "../../components/friendspopup/friendspopup";
 
 const User = () => {
 

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import fetchPost from "../query/fetchpost";
 import "./post.css";
 import { Link } from "react-router-dom";
 import Cookies from 'js-cookie';
 
-import likePost from "../query/likepost";
+import fetchPost from "../../query/fetchpost";
+import likePost from "../../query/likepost";
 
-import CommentsPopup from "../components/commentspopup/commentspopup";
+import CommentsPopup from "../commentspopup/commentspopup";
 
 const date_options = {
     month: 'short',

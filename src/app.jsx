@@ -4,9 +4,10 @@ import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Cookies from 'js-cookie';
 
-import LoginPage from "./login/login";
-import Home from "./home/home";
-import User from "./user/user";
+import LoginPage from "./pages/login/login";
+import ForYouPage from "./pages/home/fyp/fyp";
+import FriendRequestsPage from "./pages/home/friend_requests/friendrequests";
+import User from "./pages/user/user";
 
 
 const queryClient = new QueryClient({
@@ -18,38 +19,14 @@ const queryClient = new QueryClient({
     }
 });
 
-/* Maybe someday
-const userJwtContext = createContext();
-export const useUserJwt = () => useContext(userJwtContext);
-
-export const UserJwtProvider = ({ children }) => {
-    const [userjwt, setUserJtw] = useState('');
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const jwt = Cookies.get('userjwt');
-        if (jwt) {
-            setUserJtw(jwt);
-        } else {
-            navigate('/');  // Redirect to login if no JWT is found
-        }
-    }, [navigate]);
-
-    return (
-        <userJwtContext.Provider value={{ userjwt, setUserJtw }}>
-            {children}
-        </userJwtContext.Provider>
-    );
-};
-*/
-
 const App = () => {
     return (
         <BrowserRouter>
             <QueryClientProvider client={queryClient}>
                 <Routes>
                     <Route path="/user/:userid" element={<User />} />
-                    <Route path="/home" element={<Home />} />
+                    <Route path="/home/fyp" element={<ForYouPage />} />
+                    <Route path="/home/friend_requests" element={<FriendRequestsPage />} />
                     <Route path="/" element={<LoginPage />} />
                 </Routes>
             </QueryClientProvider>
