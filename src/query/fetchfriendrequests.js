@@ -1,6 +1,6 @@
 const fetchFriendRequests = async ({ jwt, page }) => {
 
-    const url = `http://localhost:3000/api/friends/`;
+    const url = `http://localhost:3000/api/friends/?page=${page}`;
 
     const response = await fetch(url, {
         method: 'GET',

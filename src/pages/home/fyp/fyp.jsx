@@ -62,8 +62,8 @@ const ForYouPage = () => {
 
     return (
         <div id="main">
-            <Header />
-            <div className="body">
+            <Header selected={1}/>
+            <div className="body_fyp">
                 <section>
                     <p>Posts: {posts.join(', ')}</p>
                     <p>Depleted: {depleted ? 'yes' : 'no'}</p>

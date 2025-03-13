@@ -15,7 +15,7 @@ header{
     background-color: white;
 }
 
-header>div{
+header>div, nav{
     display: flex;
     align-items: center;
 }
@@ -39,19 +39,27 @@ header>div:nth-of-type(1)>input:focus{
 }
 
 
-header>div:nth-of-type(2){
+header>nav{
+    align-items: center;
     justify-content: center;
-    color: #0866ff;
+    gap: 30px;
+    
 }
-header>div:nth-of-type(2)>a{
+header>nav>a{
     text-decoration: none;
 }
-header>div:nth-of-type(2)>a>h1{
+
+header>nav>a>h1{
     margin: 0px;
     text-decoration: none;
     color: #0866ff;
 }
 
-header>div:nth-of-type(3){
+header>div:nth-of-type(2){
     justify-content: right;
+}
+
+.navimg{
+    width: 40px;
+    height: 40px;
 }
