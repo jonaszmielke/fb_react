@@ -5,21 +5,21 @@ import Cookies from 'js-cookie';
 import Header from '../../../components/header';
 
 import fetchFriendRequests from '../../../query/fetchfriendrequests';
-import acceptFriendRequest from '../../../query/acceptfriendrequest';
+import handleFriendRequest from '../../../query/acceptfriendrequest';
 
 import './friendrequests.css';
 
-const FriendRequest = ({ data, forwardRef, onAccept }) => {
+const FriendRequest = ({ data, forwardRef, onRequestHandled }) => {
 
-    const handleAccept = async () => {
+    const handleRequest = async (action) => {
 
         const userjwt = Cookies.get('userjwt');
-        const response = await acceptFriendRequest({ jwt: userjwt, friendRequestId: data.id });
+        const response = await handleFriendRequest({ action: action, friendRequestId: data.id, jwt: userjwt });
         if (response.ok) {
-            console.log('Friend request accepted');
-            onAccept(data.id);
+            console.log(`Friend request ${action}ed`);
+            onRequestHandled(data.id);
         } else {
-            console.log('Error, friend request was not accepted');
+            console.log(`Error, friend request was not ${action}ed`);
         }
     }
 
@@ -31,8 +31,8 @@ const FriendRequest = ({ data, forwardRef, onAccept }) => {
             <div>
                 <h3 className='user_name'>{data.sender.name} {data.sender.surname}</h3>
                 <p className='mutual_friends_count'>{data.mutualFriendsCount} mutual friends</p>
-                <button className='accept_friend_request_button' onClick={handleAccept}>Accept</button>
-                <button className='reject_friend_request_button'>Reject</button>
+                <button className='accept_friend_request_button' onClick={() => handleRequest('accept')}>Accept</button>
+                <button className='reject_friend_request_button' onClick={() => handleRequest('reject')}>Reject</button>
             </div>
         </div>
     );
@@ -73,7 +73,7 @@ const FriendRequestsPage = () => {
 
 
     // Function to remove accepted friend request from the list
-    const queryHandleAccept = (id) => {
+    const queryHandleRequest = (id) => {
         queryClient.setQueryData(['friendrequests'], oldData => {
             return {
                 ...oldData,
@@ -102,7 +102,7 @@ const FriendRequestsPage = () => {
                                         forwardRef={isLast ? lastRequestRef : null}
                                         key={`friend_request ${request.id}`}
                                         data={request}
-                                        onAccept={queryHandleAccept}
+                                        onRequestHandled={queryHandleRequest}
                                     />
                                 );
                             })
