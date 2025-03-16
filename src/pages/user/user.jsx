@@ -1,52 +1,17 @@
 import { Link, useParams } from "react-router-dom";
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useQuery, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from 'js-cookie';
 
 import fetchUserData from "../../query/fetchuserdata";
 import fetchUsersPosts from "../../query/fetchusersposts";
 
-import "./user.css";
-
 import Header from "../../components/header";
 import Post from "../../components/post/post";
 import FriendsPopup from "../../components/friendspopup/friendspopup";
+import FriendshipButton from "./friendshipbutton";
 
-//functions for friendship button
-import { handleRequest } from "../home/friend_requests/friendrequests";
-
-
-const FriendshipButton = ({userData, isLoading, queryClient}) => {
-
-    if (isLoading) return <button className="friendship_button">loading...</button>;
-
-    const friendshipStatus = userData.friendship_status;
-    switch (friendshipStatus) {
-        case "friends":
-            return <button className="friendship_button">Friends</button>;
-
-        case "invited_them":
-            return <button className="friendship_button">Pending</button>;
-
-        case "they_invited":
-            return (
-                <button className="friendship_button" onClick={() => handleRequest({ action: 'accept', friendRequestId: userData.friend_request_id, queryClient })}>
-                    <img src="http://localhost:3000/app_images/site/add-friend.svg" alt="Add Friend" className="add_friend_icon"/>
-                    Accept invitation
-                </button>
-            );
-
-        case "not_friends":
-            return (
-                <button className="friendship_button">
-                    <img src="http://localhost:3000/app_images/site/add-friend.svg" alt="Add Friend" className="add_friend_icon"/>
-                    Add Friend
-                </button>
-            );
-        default:
-            return <button className="friendship_button">Error</button>;
-    }
-}
+import "./user.css";
 
 
 
@@ -67,7 +32,6 @@ const User = () => {
         }
     });
 
-    console.log(userData);
 
     //posts
     const {

@@ -58,7 +58,6 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
     });
 
     const comments_list = data?.pages.flatMap(page => page.list);
-    console.log(comments_list);
 
     const observer = useRef();
     const lastCommentRef = useCallback(node => {
