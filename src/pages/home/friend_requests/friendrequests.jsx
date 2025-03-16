@@ -9,20 +9,30 @@ import handleFriendRequest from '../../../query/acceptfriendrequest';
 
 import './friendrequests.css';
 
-const FriendRequest = ({ data, forwardRef, onRequestHandled }) => {
+export const handleRequest = async ({ action, friendRequestId, queryClient }) => {
+    const userjwt = Cookies.get('userjwt');
+    const response = await handleFriendRequest({ action: action, friendRequestId: friendRequestId, jwt: userjwt });
+    if (response.ok) {
+        console.log(`Friend request ${action}ed`);
 
-    const handleRequest = async (action) => {
+        // Function to remove accepted friend request from the list
+        queryClient.setQueryData(['friendrequests'], oldData => {
+            if (!oldData) return oldData; // Check if oldData is defined
+            return {
+                ...oldData,
+                pages: oldData.pages.map(page => ({
+                    ...page,
+                    list: page.list.filter(request => request.id !== friendRequestId)
+                }))
+            };
+        });
 
-        const userjwt = Cookies.get('userjwt');
-        const response = await handleFriendRequest({ action: action, friendRequestId: data.id, jwt: userjwt });
-        if (response.ok) {
-            console.log(`Friend request ${action}ed`);
-            onRequestHandled(data.id);
-        } else {
-            console.log(`Error, friend request was not ${action}ed`);
-        }
+    } else {
+        console.log(`Error, friend request was not ${action}ed`);
     }
+};
 
+const FriendRequest = ({ data, forwardRef, queryClient }) => {
     return (
         <div className='friend_request' ref={forwardRef}>
             <div>
@@ -31,8 +41,8 @@ const FriendRequest = ({ data, forwardRef, onRequestHandled }) => {
             <div>
                 <h3 className='user_name'>{data.sender.name} {data.sender.surname}</h3>
                 <p className='mutual_friends_count'>{data.mutualFriendsCount} mutual friends</p>
-                <button className='accept_friend_request_button' onClick={() => handleRequest('accept')}>Accept</button>
-                <button className='reject_friend_request_button' onClick={() => handleRequest('reject')}>Reject</button>
+                <button className='accept_friend_request_button' onClick={() => handleRequest({ action: 'accept', friendRequestId: data.id, queryClient })}>Accept</button>
+                <button className='reject_friend_request_button' onClick={() => handleRequest({ action: 'reject', friendRequestId: data.id, queryClient })}>Reject</button>
             </div>
         </div>
     );
@@ -41,7 +51,6 @@ const FriendRequest = ({ data, forwardRef, onRequestHandled }) => {
 const FriendRequestsPage = () => {
     const userjwt = Cookies.get('userjwt');
     const queryClient = useQueryClient();
-
 
     // Query for friend requests infinite scroll
     const {
@@ -57,7 +66,6 @@ const FriendRequestsPage = () => {
         getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined
     });
 
-
     // Observer for fetching more requests when scrolled to the last one
     const observer = useRef();
     const lastRequestRef = useCallback(node => {
@@ -70,21 +78,6 @@ const FriendRequestsPage = () => {
         });
         if (node) observer.current.observe(node);
     }, [isLoading, hasNextPage]);
-
-
-    // Function to remove accepted friend request from the list
-    const queryHandleRequest = (id) => {
-        queryClient.setQueryData(['friendrequests'], oldData => {
-            return {
-                ...oldData,
-                pages: oldData.pages.map(page => ({
-                    ...page,
-                    list: page.list.filter(request => request.id !== id)
-                }))
-            };
-        });
-    };
-
 
     const friend_requests = data?.pages.flatMap(page => page.list);
     return (
@@ -100,9 +93,9 @@ const FriendRequestsPage = () => {
                                 return (
                                     <FriendRequest
                                         forwardRef={isLast ? lastRequestRef : null}
+                                        queryClient={queryClient}
                                         key={`friend_request ${request.id}`}
                                         data={request}
-                                        onRequestHandled={queryHandleRequest}
                                     />
                                 );
                             })

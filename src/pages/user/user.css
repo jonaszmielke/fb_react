@@ -149,7 +149,7 @@
 
 
 
-.add_friend_button {
+.friendship_button {
     background-color: #1877f2; /* Facebook Blue */
     color: white;
     font-weight: bold;
@@ -165,11 +165,11 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.add_friend_button:hover {
+.friendship_button:hover {
     background-color: #166fe5;
 }
 
-.add_friend_button:active {
+.friendship_button:active {
     background-color: #0e5aaf;
 }
 
