@@ -61,7 +61,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
                 alt="Add Friend"
                 className="add_friend_icon"
                 />
-                Add Friend
+                Friends
             </button>
         );
 
