@@ -150,8 +150,6 @@
 
 
 .friendship_button {
-    background-color: #1877f2; /* Facebook Blue */
-    color: white;
     font-weight: bold;
     font-size: 14px;
     border: none;
@@ -177,5 +175,20 @@
     width: 16px;
     height: 16px;
 }
-  
+
+.blue{
+    background-color: #1877f2;
+    color: white;
+}
+.blue:hover{
+    background-color: #0861f2;
+}
+.grey{
+    background-color: #e2e5e9;
+    color: black;
+}
+.grey:hover{
+    background-color: #d6d9dd;
+}
+
   

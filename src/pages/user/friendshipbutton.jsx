@@ -36,7 +36,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         } else console.log("Error, friend request was not accepted");
     };
 
-    
+
     const handleAddFriend = async () => {
 
         const response = await sendFriendRequest({
@@ -54,37 +54,55 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
 
     switch (status) {
     case "friends":
-        return <button className="friendship_button">Friends</button>;
+        return (
+            <button className="friendship_button grey">
+                <img
+                src="http://localhost:3000/app_images/site/friends.svg"
+                alt="Add Friend"
+                className="add_friend_icon"
+                />
+                Add Friend
+            </button>
+        );
 
     case "invited_them":
-        return <button className="friendship_button">Pending</button>;
+        return (
+            <button className="friendship_button grey">
+                <img
+                src="http://localhost:3000/app_images/site/cancel_request.svg"
+                alt="Add Friend"
+                className="add_friend_icon"
+                />
+                Cancel invitation
+            </button>
+        );
 
     case "they_invited":
         return (
-        <button className="friendship_button" onClick={handleAcceptInvitation}>
-            <img
-            src="http://localhost:3000/app_images/site/add-friend.svg"
-            alt="Add Friend"
-            className="add_friend_icon"
-            />
-            Accept invitation
-        </button>
+            <button className="friendship_button blue" onClick={handleAcceptInvitation}>
+                <img
+                src="http://localhost:3000/app_images/site/add-friend.svg"
+                alt="Add Friend"
+                className="add_friend_icon"
+                />
+                Accept invitation
+            </button>
         );
 
     case "not_friends":
         return (
-        <button className="friendship_button" onClick={handleAddFriend}>
-            <img
-            src="http://localhost:3000/app_images/site/add-friend.svg"
-            alt="Add Friend"
-            className="add_friend_icon"
-            />
-            Add Friend
-        </button>
+            <button className="friendship_button blue" onClick={handleAddFriend}>
+                <img
+                src="http://localhost:3000/app_images/site/add-friend.svg"
+                alt="Add Friend"
+                className="add_friend_icon"
+                />
+                Add Friend
+            </button>
         );
 
     default:
-        return <button className="friendship_button">Error</button>;
+        return <button className="friendship_button grey">Error</button>;
     }
 };
 
