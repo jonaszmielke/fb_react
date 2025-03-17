@@ -1,6 +1,8 @@
 const handleFriendRequest = async ({ action, friendRequestId, jwt }) => {
 
-    if (action != 'accept' && action != 'reject') {
+    const allowedActions = ['accept', 'reject', 'cancel'];
+
+    if (!allowedActions.includes(action)) {
         throw new Error('Invalid action');
     }
 

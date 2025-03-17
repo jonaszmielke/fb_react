@@ -4,10 +4,14 @@ import Cookies from 'js-cookie';
 import handleFriendRequest from "../../query/handlefriendrequest";
 import sendFriendRequest from "../../query/sendfriendrequest";
 
+import "../../components/popup.css";
+
 const FriendshipButton = ({ userData, isLoading, queryClient }) => {
 
     // Initialize local state with the current friendship status
     const [status, setStatus] = useState(userData?.friendship_status);
+    // State for the confirm popup
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
     // Keep local state in sync if userData changes externally
     useEffect(() => {
@@ -52,17 +56,45 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         } else console.log("Error, friend request was not sent");
     };
 
+
+
+
+    const ConfirmPopup = (props) => {
+        return (props.trigger) ? (
+            <div className="popup">
+                <div className="confirm_popup">
+                    <p>{props.text}</p>
+                    <div className="choice_buttons">
+                        <button className="grey" onClick={() => console.log("Confirmed")}>Yes</button>
+                        <button className="blue" onClick={() => props.setTrigger(false)}>No</button>
+                    </div>
+                </div>
+            </div>
+        ) : "";
+    };
+
+
     switch (status) {
     case "friends":
         return (
-            <button className="friendship_button grey">
-                <img
-                src="http://localhost:3000/app_images/site/friends.svg"
-                alt="Add Friend"
-                className="add_friend_icon"
+
+            <>
+                <button className="friendship_button grey" onClick={() => setShowConfirmPopup(true)}>
+                    <img
+                    src="http://localhost:3000/app_images/site/friends.svg"
+                    alt="Add Friend"
+                    className="add_friend_icon"
+                    />
+                    Friends
+                </button>
+
+                <ConfirmPopup
+                    trigger={showConfirmPopup}
+                    setTrigger={setShowConfirmPopup}
+                    text="Are you sure you want to cancel the friend request?"
                 />
-                Friends
-            </button>
+            </>
+
         );
 
     case "invited_them":
