@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 
 import handleFriendRequest from "../../query/handlefriendrequest";
 import sendFriendRequest from "../../query/sendfriendrequest";
+import fetchUnfriend from "../../query/handleUnfriend";
 
 import "../../components/popup.css";
 
@@ -20,10 +21,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
 
     if (isLoading) return <button className="friendship_button">loading...</button>;
 
-
-
     const handleAcceptInvitation = async () => {
-
         const response = await handleFriendRequest({
             action: "accept",
             friendRequestId: userData.friend_request_id,
@@ -40,9 +38,36 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         } else console.log("Error, friend request was not accepted");
     };
 
+    const handleCancelInvitation = async () => {
+        const response = await handleFriendRequest({
+            action: "cancel",
+            friendRequestId: userData.friend_request_id,
+            jwt: Cookies.get("userjwt")
+        });
+        if (response.ok) {
+            setStatus("not_friends");
+            queryClient.setQueryData(["userData", userData.id], oldData => ({
+                ...oldData,
+                friendship_status: "not_friends"
+            }));
+        } else console.log("Error, friend request was not cancelled");
+    }
+
+    const handleUnfriend = async () => {
+        const response = await fetchUnfriend({
+            friend_id: userData.id,
+            jwt: Cookies.get("userjwt")
+        });
+        if (response.ok) {
+            setStatus("not_friends");
+            queryClient.setQueryData(["userData", userData.id], oldData => ({
+                ...oldData,
+                friendship_status: "not_friends"
+            }));
+        } else console.log("Error, friendship was not deleted");
+    }
 
     const handleAddFriend = async () => {
-
         const response = await sendFriendRequest({
             receiverid: userData.id,
             jwt: Cookies.get("userjwt")
@@ -56,16 +81,13 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         } else console.log("Error, friend request was not sent");
     };
 
-
-
-
     const ConfirmPopup = (props) => {
         return (props.trigger) ? (
             <div className="popup">
                 <div className="confirm_popup">
                     <p>{props.text}</p>
                     <div className="choice_buttons">
-                        <button className="grey" onClick={() => console.log("Confirmed")}>Yes</button>
+                        <button className="grey" onClick={props.action}>Yes</button>
                         <button className="blue" onClick={() => props.setTrigger(false)}>No</button>
                     </div>
                 </div>
@@ -73,11 +95,9 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         ) : "";
     };
 
-
     switch (status) {
     case "friends":
         return (
-
             <>
                 <button className="friendship_button grey" onClick={() => setShowConfirmPopup(true)}>
                     <img
@@ -91,22 +111,31 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
                 <ConfirmPopup
                     trigger={showConfirmPopup}
                     setTrigger={setShowConfirmPopup}
-                    text="Are you sure you want to cancel the friend request?"
+                    text="Are you sure you want remove this user from your friends?"
+                    action={handleUnfriend}
                 />
             </>
-
         );
 
     case "invited_them":
         return (
-            <button className="friendship_button grey">
-                <img
-                src="http://localhost:3000/app_images/site/cancel_request.svg"
-                alt="Add Friend"
-                className="add_friend_icon"
+            <>
+                <button className="friendship_button grey" onClick={() => setShowConfirmPopup(true)}>
+                    <img
+                    src="http://localhost:3000/app_images/site/cancel_request.svg"
+                    alt="Add Friend"
+                    className="add_friend_icon"
+                    />
+                    Cancel invitation
+                </button>
+
+                <ConfirmPopup
+                    trigger={showConfirmPopup}
+                    setTrigger={setShowConfirmPopup}
+                    text="Are you sure you want to cancel the friend request?"
+                    action={handleCancelInvitation}
                 />
-                Cancel invitation
-            </button>
+            </>
         );
 
     case "they_invited":
