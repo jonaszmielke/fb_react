@@ -26,6 +26,10 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         setFriendRequestId(userData?.friend_request_id);
     }, [isLoading]);
 
+    useEffect(() => {
+        setShowConfirmPopup(false);
+    }, [status]);
+
     if (isLoading) return <button className="friendship_button">loading...</button>;
 
     
@@ -44,7 +48,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
                 friend_request_id: null
             }));
             setStatus("friends");
-            
+
         } else console.log("Error, friend request was not accepted");
     };
 
