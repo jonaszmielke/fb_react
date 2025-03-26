@@ -9,8 +9,12 @@ import "../../components/popup.css";
 
 const FriendshipButton = ({ userData, isLoading, queryClient }) => {
 
-    // Initialize local state with the current friendship status
+    // Friendship status state
     const [status, setStatus] = useState(userData?.friendship_status);
+    // Friend request id status
+    const [friendRequestId, setFriendRequestId] = useState(userData?.friend_request_id);
+
+
     // State for the confirm popup
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
@@ -21,16 +25,17 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
 
     if (isLoading) return <button className="friendship_button">loading...</button>;
 
+
+
     const handleAcceptInvitation = async () => {
         const response = await handleFriendRequest({
             action: "accept",
-            friendRequestId: userData.friend_request_id,
+            friendRequestId: friendRequestId,
             jwt: Cookies.get("userjwt")
         });
         if (response.ok) {
-            // Update local state immediately
             setStatus("friends");
-            // Also update the cache for consistency
+            setFriendRequestId(null);
             queryClient.setQueryData(["userData", userData.id], oldData => ({
                 ...oldData,
                 friendship_status: "friends"
@@ -41,11 +46,12 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
     const handleCancelInvitation = async () => {
         const response = await handleFriendRequest({
             action: "cancel",
-            friendRequestId: userData.friend_request_id,
+            friendRequestId: friendRequestId,
             jwt: Cookies.get("userjwt")
         });
         if (response.ok) {
             setStatus("not_friends");
+            setFriendRequestId(null);
             queryClient.setQueryData(["userData", userData.id], oldData => ({
                 ...oldData,
                 friendship_status: "not_friends"
@@ -73,13 +79,16 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             jwt: Cookies.get("userjwt")
         });
         if (response.ok) {
-            setStatus("invited_them");
+            setFriendRequestId(response.friendRequestId);
             queryClient.setQueryData(["userData", userData.id], oldData => ({
                 ...oldData,
                 friendship_status: "invited_them"
             }));
+            setStatus("invited_them");
         } else console.log("Error, friend request was not sent");
     };
+
+
 
     const ConfirmPopup = (props) => {
         return (props.trigger) ? (
@@ -94,6 +103,9 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             </div>
         ) : "";
     };
+
+
+
 
     switch (status) {
     case "friends":
