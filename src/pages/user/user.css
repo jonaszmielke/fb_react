@@ -210,6 +210,12 @@
     justify-content: space-evenly;
 }
 
+.confirm_popup>p{
+    text-align: center;
+}
+
+
+
 .choice_buttons{
 
     width: 80%;

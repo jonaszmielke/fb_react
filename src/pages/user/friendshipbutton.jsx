@@ -12,8 +12,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
     // Friendship status state
     const [status, setStatus] = useState(userData?.friendship_status);
     // Friend request id status
-    const [friendRequestId, setFriendRequestId] = useState(userData?.friend_request_id);
-
+    const [friendRequestId, setFriendRequestId] = useState(null);
 
     // State for the confirm popup
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
@@ -23,39 +22,48 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         setStatus(userData?.friendship_status);
     }, [userData]);
 
+    useEffect(() => {
+        setFriendRequestId(userData?.friend_request_id);
+    }, [isLoading]);
+
     if (isLoading) return <button className="friendship_button">loading...</button>;
 
-
-
+    
     const handleAcceptInvitation = async () => {
+        
         const response = await handleFriendRequest({
             action: "accept",
             friendRequestId: friendRequestId,
             jwt: Cookies.get("userjwt")
         });
         if (response.ok) {
-            setStatus("friends");
             setFriendRequestId(null);
             queryClient.setQueryData(["userData", userData.id], oldData => ({
                 ...oldData,
-                friendship_status: "friends"
+                friendship_status: "friends",
+                friend_request_id: null
             }));
+            setStatus("friends");
+            
         } else console.log("Error, friend request was not accepted");
     };
 
     const handleCancelInvitation = async () => {
+        
         const response = await handleFriendRequest({
             action: "cancel",
             friendRequestId: friendRequestId,
             jwt: Cookies.get("userjwt")
         });
         if (response.ok) {
-            setStatus("not_friends");
             setFriendRequestId(null);
             queryClient.setQueryData(["userData", userData.id], oldData => ({
                 ...oldData,
-                friendship_status: "not_friends"
+                friendship_status: "not_friends",
+                friend_request_id: null
             }));
+            setStatus("not_friends");
+
         } else console.log("Error, friend request was not cancelled");
     }
 
@@ -65,11 +73,12 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             jwt: Cookies.get("userjwt")
         });
         if (response.ok) {
-            setStatus("not_friends");
             queryClient.setQueryData(["userData", userData.id], oldData => ({
                 ...oldData,
                 friendship_status: "not_friends"
             }));
+            setStatus("not_friends");
+
         } else console.log("Error, friendship was not deleted");
     }
 
@@ -82,9 +91,11 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             setFriendRequestId(response.friendRequestId);
             queryClient.setQueryData(["userData", userData.id], oldData => ({
                 ...oldData,
-                friendship_status: "invited_them"
+                friendship_status: "invited_them",
+                friend_request_id: response.friendRequestId
             }));
             setStatus("invited_them");
+
         } else console.log("Error, friend request was not sent");
     };
 
