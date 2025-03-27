@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 
-import handleFriendRequest from "../../query/handlefriendrequest";
-import sendFriendRequest from "../../query/sendfriendrequest";
-import fetchUnfriend from "../../query/handleUnfriend";
+import handleFriendRequest from "../../query/friend_request/handlefriendrequest";
+import sendFriendRequest from "../../query/friend_request/sendfriendrequest";
+import fetchUnfriend from "../../query/friend_request/handleUnfriend";
 
 import "../../components/popup.css";
 

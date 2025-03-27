@@ -2,7 +2,7 @@ import React, {useRef, useCallback, forwardRef} from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
-import fetchComments from '../../query/fetchcomments';
+import fetchComments from '../../query/post/fetchcomments';
 
 import '../popup.css';
 import './commentspopup.css';

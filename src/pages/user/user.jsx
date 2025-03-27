@@ -3,8 +3,8 @@ import { useState, useRef, useCallback } from "react";
 import { useQuery, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from 'js-cookie';
 
-import fetchUserData from "../../query/fetchuserdata";
-import fetchUsersPosts from "../../query/fetchusersposts";
+import fetchUserData from "../../query/user/fetchuserdata";
+import fetchUsersPosts from "../../query/user/fetchusersposts";
 
 import Header from "../../components/header";
 import Post from "../../components/post/post";

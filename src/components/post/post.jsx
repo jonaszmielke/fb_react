@@ -4,8 +4,8 @@ import "./post.css";
 import { Link } from "react-router-dom";
 import Cookies from 'js-cookie';
 
-import fetchPost from "../../query/fetchpost";
-import likePost from "../../query/likepost";
+import fetchPost from "../../query/post/fetchpost";
+import likePost from "../../query/post/likepost";
 
 import CommentsPopup from "../commentspopup/commentspopup";
 

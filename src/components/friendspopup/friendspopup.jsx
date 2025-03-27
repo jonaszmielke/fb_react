@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 import '../popup.css';
 import './friendspopup.css';
-import fetchUserFriendsList from '../../query/fetchuserfriendslist';
+import fetchUserFriendsList from '../../query/user/fetchuserfriendslist';
 
 function Friend({ data, forwardRef, props }) {
     const localRef = useRef();

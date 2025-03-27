@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 
 import Header from '../../../components/header';
 
-import fetchFriendRequests from '../../../query/fetchfriendrequests';
-import handleFriendRequest from '../../../query/handlefriendrequest';
+import fetchFriendRequests from '../../../query/friend_request/fetchfriendrequests';
+import handleFriendRequest from '../../../query/friend_request/handlefriendrequest';
 
 import './friendrequests.css';
 
