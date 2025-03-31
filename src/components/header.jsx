@@ -1,6 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Header = ({selected}) => {
+
+    const user = JSON.parse(Cookies.get('user'));
+    const navigate = useNavigate();
+
     return(
         <header>
             <div>
@@ -16,7 +21,15 @@ const Header = ({selected}) => {
                 </Link>
             </nav>
             <div>
-                user's profile
+                <img 
+                    className="headerProfilePicture" 
+                    src={`http://localhost:3000/app_images/profile_pictures/${user.profilePictureUrl}`} 
+                    alt="your profile picture"
+                    onClick={() => {
+                        navigate(`/user/${user.id}`);
+                    }}    
+                />
+
             </div>
         </header>
     );

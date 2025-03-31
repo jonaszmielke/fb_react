@@ -30,7 +30,8 @@ const LoginPage = () => {
                         const wrong = document.getElementById("wrong");
                         wrong.style.visibility = 'visible';
                     } else {
-                        Cookies.set('userjwt', jwt.token, { sameSite: 'Lax' })
+                        Cookies.set('userjwt', jwt.token, { sameSite: 'Strict', secure: true });
+                        Cookies.set('user', JSON.stringify(jwt.user), { sameSite: 'Strict' });
                         navigate('/home/fyp');
                     }
                 }}>

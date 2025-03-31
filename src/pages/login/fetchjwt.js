@@ -18,7 +18,7 @@ const fetchjwt = async (email, password) => {
 
     return {
         error: false,
-        token: data.token
+        ...data
     };
 }
 
