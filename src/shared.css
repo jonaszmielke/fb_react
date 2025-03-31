@@ -70,4 +70,5 @@ header>div:nth-of-type(2){
     width: 45px;
     border: 1px solid gray;
     border-radius: 50%;
+    cursor: pointer;
 }

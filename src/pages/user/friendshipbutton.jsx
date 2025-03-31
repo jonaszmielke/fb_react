@@ -128,9 +128,9 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             <>
                 <button className="friendship_button grey" onClick={() => setShowConfirmPopup(true)}>
                     <img
-                    src="http://localhost:3000/app_images/site/friends.svg"
-                    alt="Add Friend"
-                    className="add_friend_icon"
+                        src="http://localhost:3000/app_images/site/friends.svg"
+                        alt="Add Friend"
+                        className="add_friend_icon"
                     />
                     Friends
                 </button>
@@ -149,9 +149,9 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             <>
                 <button className="friendship_button grey" onClick={() => setShowConfirmPopup(true)}>
                     <img
-                    src="http://localhost:3000/app_images/site/cancel_request.svg"
-                    alt="Add Friend"
-                    className="add_friend_icon"
+                        src="http://localhost:3000/app_images/site/cancel_request.svg"
+                        alt="Add Friend"
+                        className="add_friend_icon"
                     />
                     Cancel invitation
                 </button>
@@ -169,9 +169,9 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         return (
             <button className="friendship_button blue" onClick={handleAcceptInvitation}>
                 <img
-                src="http://localhost:3000/app_images/site/add-friend.svg"
-                alt="Add Friend"
-                className="add_friend_icon"
+                    src="http://localhost:3000/app_images/site/add-friend.svg"
+                    alt="Add Friend"
+                    className="add_friend_icon"
                 />
                 Accept invitation
             </button>
@@ -181,9 +181,9 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         return (
             <button className="friendship_button blue" onClick={handleAddFriend}>
                 <img
-                src="http://localhost:3000/app_images/site/add-friend.svg"
-                alt="Add Friend"
-                className="add_friend_icon"
+                    src="http://localhost:3000/app_images/site/add-friend.svg"
+                    alt="Add Friend"
+                    className="add_friend_icon"
                 />
                 Add Friend
             </button>

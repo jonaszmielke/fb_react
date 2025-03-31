@@ -10,6 +10,7 @@ import Header from "../../components/header";
 import Post from "../../components/post/post";
 import FriendsPopup from "../../components/friendspopup/friendspopup";
 import FriendshipButton from "./friendshipbutton";
+import EditProfileButton from "./editprofile";
 
 import "./user.css";
 
@@ -23,6 +24,9 @@ const User = () => {
     const userjwt = Cookies.get('userjwt');
     const { userid } = useParams();
 
+    //deciding style of the page: normal user's page or your user page with functionality to edit the profile
+    const theuser = JSON.parse(Cookies.get('user'));
+    const own_profile = theuser.id == userid;
 
     //user data
     const { data: userData, isLoading: isUserDataLoading } = useQuery({
@@ -91,11 +95,16 @@ const User = () => {
                             </p>
                         </div>
                         <div className="user-buttons">
-                            <FriendshipButton 
-                                userData={userData}
-                                isLoading={isUserDataLoading}
-                                queryClient={queryClient}
-                            />
+
+                            {own_profile? 
+                                <EditProfileButton/>
+                                :
+                                <FriendshipButton 
+                                    userData={userData}
+                                    isLoading={isUserDataLoading}
+                                    queryClient={queryClient}
+                                />
+                            }
                         </div>
                     </section>
                 </div>
