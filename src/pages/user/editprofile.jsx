@@ -3,10 +3,12 @@ import Cookies from "js-cookie";
 import '../../components/popup.css';
 import './editprofile.css';
 
+import ImageUploader from "../../components/imageUploader/ImageUploader";
+
 const EditProfileButton = () => {
 
     const [showEditProfile, setShowEditProfile] = useState(false);
-    const jwt = Cookies.get('jwt');
+    const jwt = Cookies.get('userjwt');
 
     return(
         <>
@@ -33,6 +35,9 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
 
     const user = JSON.parse(Cookies.get('user'));
 
+    const [showProfilePhotoUpload, setShowProfilePhotoUpload] = useState(false);
+    const [showBackgroundUpload, setShowBackgroundUpload] = useState(false);
+
     return trigger ? (
         <div className="popup">
             <div className="popup-inner">
@@ -48,11 +53,18 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
                 <section>
                     <div className="section_header">
                         <h2>Profile picture</h2>
-                        <p>Edit</p>
+                        <p onClick={() => {setShowProfilePhotoUpload(true)}}>Edit</p>
                     </div>
                     <div className="content">
                         <img className="edit_profile_profile_picture" src={`http://localhost:3000/app_images/profile_pictures/${user.profilePictureUrl}`}/>
                     </div>
+
+                    <ImageUploader 
+                        aspect={1}
+                        trigger={showProfilePhotoUpload}
+                        setTrigger={setShowProfilePhotoUpload}
+                    />
+
                 </section>
                 <section>
                     <div className="section_header">
@@ -60,7 +72,7 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
                         <p>Edit</p>
                     </div>
                     <div className="content">
-                        <img className="edit_profile_background" src={`http://localhost:3000/app_images/profile_pictures/${user.backgroundUrl}`}/>
+                        <img className="edit_profile_background" src={`http://localhost:3000/app_images/backgrounds/${user.backgroundUrl}`}/>
                     </div>
                 </section>
             </div>
