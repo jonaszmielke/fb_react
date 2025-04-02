@@ -61,6 +61,8 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
 
                     <ImageUploader 
                         aspect={1}
+                        title={'Change profile picture'}
+                        url={'http://localhost:3000/api/user/profile_picture'}
                         trigger={showProfilePhotoUpload}
                         setTrigger={setShowProfilePhotoUpload}
                     />

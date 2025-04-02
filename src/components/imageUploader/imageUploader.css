@@ -1,39 +1,90 @@
-.image-popup-inner{
-    min-width: 1600px;
-    min-height: 1300px;
-
-    max-width: 90%;
-    max-height: 90%;
-
-    background-color: white;
-    border-radius: 20px;
+/* Popup inner container transitions between small and expanded sizes */
+.image-popup-inner {
+  background-color: white;
+  border-radius: 20px;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  /* Small state dimensions */
+  height: 20vh;
+  width: 20vw;
 }
 
-.image-popup-h1{
-    font-size: 24px;
+/* Expanded dimensions after an image is selected */
+.image-popup-inner.expanded {
+  height: 87vh;
+  width: 60vw;
 }
 
-.image-crop-section {
-    width: 100%;
-    height: 1100px;  /* Adjust height as needed */
-    position: relative; /* Required for react-easy-crop */
-    margin-top: 20px;
-}
-
-.center-the-button{
-    width: 100%;
-    display: flex;
+/* Header styling */
+.popup-header {
+    display: grid;
+    grid-template-columns: 20fr 60fr 20fr;
     align-items: center;
-    justify-content: center;
-    margin-top: 20px;
+    padding: 10px 20px;
+  }
+  
+  .popup-header-text {
+    text-align: center;
+  }
+  
+  .popup-header-text h1 {
+    font-size: 24px;
+    margin: 0; /* Optional: removes any default margin */
+  }
+
+.popup-header-close{
+    display: flex;
+    justify-content: right;
 }
 
-.image-confirm-button{
-    width: 300px;
-    height: 50px;
-    font-size: 24px;
+/* Popup content fills remaining space */
+.popup-content {
+  padding: 20px;
+}
 
-    border-radius: 20px;
+/* When no image is selected, center the content vertically & horizontally */
+.popup-content.no-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 60px); /* Adjust based on your header height */
+}
 
-    
+/* Center items horizontally */
+.center-the-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+/* Image crop area styling */
+.image-crop-section {
+  height: 70vh;
+  width: 60vw;
+  position: relative;
+  margin-top: 20px;
+}
+
+/* Styling for the upload button */
+.choose-file-label,
+.image-confirm-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 18px;      /* Unified font size */
+  text-align: center;   /* Centers the text */
+  transition: background-color 0.3s ease;
+}
+
+.choose-file-label{
+    margin-top: 20px;
+    border: 1px solid darkgray;
+}
+
+.image-confirm-button {
+    margin-top: 15px;
+    border: 1px solid black;
 }
