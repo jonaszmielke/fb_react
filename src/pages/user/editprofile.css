@@ -1,4 +1,4 @@
-.edit_profile_header{
+.popup-header{
 
     display: grid;
     grid-template-columns: 10% 80% 10%;
@@ -6,21 +6,21 @@
 
 }
 
-.edit_profile_header_text{
+.popup-header-text{
     width: 100%;
 }
-.edit_profile_header_text{
+.popup-header-text{
     width: 100%;
     text-align: center;
     font-size: 16px;
 }
 
-.edit_profile_header_close{
+.popup-header-close{
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.edit_profile_header_close>button{
+.popup-header-close>button{
     background-color: lightgray;
     border-radius: 50%;
     border: none;
@@ -31,7 +31,7 @@
     font-size: 16px;
     box-shadow: none;
 }
-.edit_profile_header_close>button:hover{
+.popup-header-close>button:hover{
     background-color: gray;
 }
 

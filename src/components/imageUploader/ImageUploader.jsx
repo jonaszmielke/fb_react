@@ -4,6 +4,8 @@ import Cropper from 'react-easy-crop';
 import axios from 'axios';
 import getCroppedImg from './cropImage'; // helper function to crop image
 
+import './imageUploader.css';
+
 function ImageUploader({ aspect, trigger, setTrigger}) {
     const jwt = Cookies.get('userjwt');
     const [imageSrc, setImageSrc] = useState(null);
@@ -58,15 +60,20 @@ function ImageUploader({ aspect, trigger, setTrigger}) {
   // Only render popup if trigger is true.
   return trigger ? (
     <div className="popup">
-      <div className="popup-inner">
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3>Upload and Crop Image</h3>
-          <button onClick={() => setTrigger(false)}>X</button>
-        </header>
+      <div className="image-popup-inner">
+          <div className="popup-header">
+            <div></div>
+            <div className="popup-header-text">
+                <h1 className='image-popup-h1'>Select image</h1>
+            </div>
+            <div className="popup-header-close">
+                <button onClick={() => setTrigger(false)}>X</button>
+            </div>
+        </div>
         <div>
           <input type="file" accept="image/*" onChange={onFileChange} />
           {imageSrc && (
-            <div style={{ position: 'relative', width: '400px', height: '300px', marginTop: '20px' }}>
+            <div className='image-crop-section'>
               <Cropper
                 image={imageSrc}
                 crop={crop}
@@ -79,9 +86,11 @@ function ImageUploader({ aspect, trigger, setTrigger}) {
             </div>
           )}
           {imageSrc && (
-            <button onClick={uploadCroppedImage} style={{ marginTop: '20px' }}>
-              Upload Cropped Image
-            </button>
+            <div className='center-the-button'>
+              <button onClick={uploadCroppedImage} className='image-confirm-button blue'>
+                Upload Cropped Image
+              </button>
+            </div>
           )}
         </div>
       </div>

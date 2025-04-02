@@ -41,12 +41,12 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
     return trigger ? (
         <div className="popup">
             <div className="popup-inner">
-                <div className="edit_profile_header">
+                <div className="popup-header">
                     <div></div>
-                    <div className="edit_profile_header_text">
+                    <div className="popup-header-text">
                         <h1>Edit profile</h1>
                     </div>
-                    <div className="edit_profile_header_close">
+                    <div className="popup-header-close">
                         <button onClick={() => setTrigger(false)}>X</button>
                     </div>
                 </div>
