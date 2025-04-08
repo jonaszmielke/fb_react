@@ -77,7 +77,12 @@ const User = () => {
             <Header />
             <div className="userHeader">
                 <div>
-                    <section>tło</section>
+                    <section>
+                        {isUserDataLoading ? '' :
+                            userData.backgroundUrl===undefined || userData.backgroundUrl===null? '' : 
+                                <img src={`http://localhost:3000/app_images/backgrounds/${userData.backgroundUrl}`}/>
+                        }
+                        </section>
                     <section>
                         <div className="profilePicture">
                             {isUserDataLoading?
@@ -91,7 +96,7 @@ const User = () => {
                         <div className="user-stats">
                             <h1>{isUserDataLoading? "loading" : userData.name + " " + userData.surname}</h1>
                             <p>
-                                {isUserDataLoading? "loading" : userData.friends_ammount} znajomi • {isUserDataLoading? "loading" : userData.mutual_friends_ammount} wspólni znajomi
+                                {isUserDataLoading? "loading" : userData.friends_ammount} znajomi {own_profile ? '' : isUserDataLoading? "• loading" : `• ${userData.mutual_friends_ammount} wspólni znajomi`}
                             </p>
                         </div>
                         <div className="user-buttons">
