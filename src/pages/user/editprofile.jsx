@@ -63,6 +63,7 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
                         aspect={1}
                         title={'Change profile picture'}
                         url={'http://localhost:3000/api/user/profile_picture'}
+                        refresh={true}
                         trigger={showProfilePhotoUpload}
                         setTrigger={setShowProfilePhotoUpload}
                     />
@@ -71,11 +72,21 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
                 <section>
                     <div className="section_header">
                         <h2>Background</h2>
-                        <p>Edit</p>
+                        <p onClick={() => {setShowBackgroundUpload(true)}}>Edit</p>
                     </div>
                     <div className="content">
                         <img className="edit_profile_background" src={`http://localhost:3000/app_images/backgrounds/${user.backgroundUrl}`}/>
                     </div>
+
+                    <ImageUploader 
+                        aspect={16/10}
+                        title={'Change the background'}
+                        url={'http://localhost:3000/api/user/background'}
+                        refresh={true}
+                        trigger={showBackgroundUpload}
+                        setTrigger={setShowBackgroundUpload}
+                    />
+
                 </section>
             </div>
         </div>
