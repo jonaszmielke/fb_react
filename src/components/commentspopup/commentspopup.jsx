@@ -1,4 +1,4 @@
-import React, {useRef, useCallback, forwardRef} from 'react'
+import React, {useRef, useCallback, forwardRef, useState} from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
@@ -71,6 +71,8 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
         if (node) observer.current.observe(node);
     }, [isLoading, hasNextPage]);
 
+    const [comment_input, set_comment_input] = useState('');
+
     return (trigger) ? (
   
         <div className='popup'>
@@ -92,6 +94,10 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
                                 );
                             })
                     }
+                </div>
+                <div className='write_comment'>
+                    <input type='text' placeholder='Write a comment' value={comment_input} onChange={(e) => set_comment_input(e.target.value)}></input>
+                    <button></button>
                 </div>
             </div>
         </div>

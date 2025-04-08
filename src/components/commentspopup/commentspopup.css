@@ -65,3 +65,39 @@
     margin:  0px 0px 10px 15px;
     font-weight: l;
 }
+
+.write_comment{
+    width: 100%;
+    height: 150px;
+    border-top: 1px solid grey;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.write_comment>input{
+    width: 80%;
+    height: 50%;
+
+    border: 1px solid black;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    padding-left: 15px;
+}
+
+.write_comment>button{
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    background-color: white;
+    border: none;
+
+
+    background-image: url('http://localhost:3000/app_images/site/send.svg');
+    background-size: cover;
+    transition: background-image 0.3s ease;
+}
+.write_comment>button:hover{
+    background-image: url('http://localhost:3000/app_images/site/send_blue.svg');
+}
