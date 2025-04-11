@@ -1,10 +1,7 @@
-const fetchFyp = async (omit, jwt) => {
+const fetchFyp = async (page, jwt) => {
 
-    let url = 'http://localhost:3000/api/fyp_posts';
-
-    if(omit)
-        url += `?${new URLSearchParams({ omit: JSON.stringify(omit) }).toString()}`;
-
+    let url = `http://localhost:3000/api/fyp_posts?page=${page}`;
+    console.log(`Sending fyp request\njwt ${jwt}`);
     const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -13,18 +10,10 @@ const fetchFyp = async (omit, jwt) => {
         },
     });
 
-    if (!response.ok)
-        throw new Error(`Fyp posts' ids fetch not ok, omit = ${omit}`);
+    if (!response.ok) throw new Error("Fyp posts' ids fetch not ok");
 
-    const data = await response.json();
-
-    if(data.allPostsDepleted)
-        return {'allPostsDepleted': true};
-
-    return {
-        'postids': data.postids,
-        'allPostsDepleted': false
-    };
+    const result = await response.json();
+    return result;
 };
 
 export default fetchFyp;

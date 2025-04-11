@@ -11,12 +11,9 @@ const fetchUsersPosts = async ({ queryKey, jwt, page }) => {
         },
     });
 
-    if (!response.ok) {
-        throw new Error("Failed to fetch friends list");
-    }
+    if (!response.ok) throw new Error("Failed to fetch friends list");
 
     const result = await response.json();
-
     return result;
 };
 

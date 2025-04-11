@@ -1,5 +1,6 @@
 //import { token } from "../login/login";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import fetchForYouPage from "../../../query/fetchfyp";
 import Cookies from 'js-cookie';
 
@@ -11,67 +12,56 @@ import Post from "../../../components/post/post";
 
 const ForYouPage = () => {
     const userjwt = Cookies.get('userjwt');
+    console.log(`jwt ${userjwt}`);
+    const {
+        data : postsData,
+        fetchNextPage,
+        hasNextPage,
+        isLoading,
+        isError,
+    } = useInfiniteQuery({
+        queryKey: ['fyp_posts'],
+        queryFn: ({ pageParam = 0 }) => 
+            fetchForYouPage(pageParam, userjwt), // Pass arguments separately
+        getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined
+    });
 
-    const [posts, setPosts] = useState([]);
-    const postsRef = useRef(posts);
+    //transforming list of pages into a list of postids
+    const posts = postsData?.pages?.flatMap(page => page.list) || [];
 
-    const [depleted, setDepleted] = useState(false);
-    const depletedRef = useRef(depleted);
-
-    useEffect(() => {
-        postsRef.current = posts;
-    }, [posts]);
-
-    useEffect(() => {
-        depletedRef.current = depleted;
-    }, [depleted]);
-
-    useEffect(() => {
-
-        if(!depletedRef.current){
-            requestForYouPage(postsRef.current);
-        }
-
-        const handleScroll = () => {
-            if (!depletedRef.current && window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                requestForYouPage(postsRef.current);
+    //observer to fetch more posts when scrolled to the last one
+    const observer = useRef();
+    const lastPostRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasNextPage) {
+                fetchNextPage();
             }
-        };
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasNextPage]);
 
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    async function requestForYouPage(currentPosts) {
-            
-        const new_posts = await fetchForYouPage(currentPosts, userjwt);
-        //console.log(new_posts);
-
-        if (new_posts.allPostsDepleted) {
-            console.log('All posts depleted, stopping the ForYouPage useEffect');
-            setDepleted(true);
-            depletedRef.current = true;
-            return;
-        }
-        //console.log(`Appending new posts ${new_posts.postids}\nPosts to omit: ${currentPosts}`);
-        setPosts((prevPosts) => prevPosts.concat(new_posts.postids));
-    }
 
     return (
         <div id="main">
             <Header selected={1}/>
             <div className="body_fyp">
-                <section>
-                    <p>Posts: {posts.join(', ')}</p>
-                    <p>Depleted: {depleted ? 'yes' : 'no'}</p>
-                </section>
+                <section></section>
                 <section id="posts" className="posts">
-                    {posts.map((id) => (
-                        <Post key={`post ${id}`} id={id} />
-                    ))}
+                    { isLoading ? 'Loading' :
+                        isError ? 'Error' : 
+                            posts.map((id, index) => {
+                            const isLast = index === posts.length - 1;
+                            return (
+                                <Post 
+                                    forwardRef={isLast ? lastPostRef : null} 
+                                    key={`post ${id}`} 
+                                    id={id} 
+                                />
+                            )
+                        })
+                    }
                 </section>
                 <section></section>
             </div>
