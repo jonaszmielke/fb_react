@@ -1,8 +1,9 @@
 import React, {useRef, useCallback, forwardRef, useState} from 'react'
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
 import fetchComments from '../../query/post/fetchcomments';
+import uploadComment from '../../query/post/uploadcomment';
 
 import '../popup.css';
 import './commentspopup.css';
@@ -43,6 +44,8 @@ const Comment = forwardRef(({ comment_data }, ref) => {
 
 function CommentsPopup({ trigger, setTrigger, postid }) {
     const userjwt = Cookies.get('userjwt');
+    const queryClient = useQueryClient();
+
 
     const {
         data,
@@ -71,7 +74,22 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
         if (node) observer.current.observe(node);
     }, [isLoading, hasNextPage]);
 
+    //commenting
     const [comment_input, set_comment_input] = useState('');
+
+    const uploadCommentHandler = async () => {
+
+        const success = await uploadComment({ postid, text: comment_input, userjwt });
+        if (success) {
+
+            alert('success');
+            queryClient.invalidateQueries(['comments', postid]);
+
+        } else {
+            alert('error');
+
+        }
+    }
 
     return (trigger) ? (
   
@@ -97,7 +115,7 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
                 </div>
                 <div className='write_comment'>
                     <input type='text' placeholder='Write a comment' value={comment_input} onChange={(e) => set_comment_input(e.target.value)}></input>
-                    <button></button>
+                    <button id='submit_comment_button' onClick={() => uploadCommentHandler()}></button>
                 </div>
             </div>
         </div>
