@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 
 import fetchComments from '../../query/post/fetchcomments';
 import uploadComment from '../../query/post/uploadcomment';
+import deleteComment from '../../query/post/deletecomment';
 
 import '../popup.css';
 import './commentspopup.css';
@@ -18,9 +19,24 @@ const date_options = {
 };
 
 
-const Comment = forwardRef(({ comment_data }, ref) => {
+const Comment = forwardRef(({ comment_data, postid }, ref) => {
+
+    const theuser = JSON.parse(Cookies.get('user'));
+    const userjwt = Cookies.get('userjwt');
+    const queryClient = useQueryClient();
+    const [showOptions, setShowOptions] = useState(false); // State for dropdown visibility
+
     let date = new Date(comment_data.createdAt);
     date = date.toLocaleString('en-UK', date_options);
+
+    const toggleOptions = () => setShowOptions(!showOptions); // Toggle dropdown visibility
+    const handleDelete = async () => {
+
+        const success = await deleteComment({comment_id: comment_data.id, jwt: userjwt})
+        if (success) queryClient.invalidateQueries(['comments', postid]);
+        
+        setShowOptions(false);
+    };
 
     return (
         <span className='comment' ref={ref}>
@@ -33,6 +49,16 @@ const Comment = forwardRef(({ comment_data }, ref) => {
                 <div className='comment-header'>
                     <span className='comment-name'>{comment_data.owner.name} {comment_data.owner.surname}</span>
                     <span className='comment-date'>{date}</span>
+                    { comment_data.owner.id == theuser.id && (
+                        <>
+                            <button onClick={toggleOptions}>...</button>
+                            {showOptions && (
+                                <div className="comment-options">
+                                    <button onClick={handleDelete}>Delete</button>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
                 <p className='comment-text'>{comment_data.text}</p>
             </div>
@@ -43,9 +69,9 @@ const Comment = forwardRef(({ comment_data }, ref) => {
 
 
 function CommentsPopup({ trigger, setTrigger, postid }) {
+
     const userjwt = Cookies.get('userjwt');
     const queryClient = useQueryClient();
-
 
     const {
         data,
@@ -74,6 +100,7 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
         if (node) observer.current.observe(node);
     }, [isLoading, hasNextPage]);
 
+
     //commenting
     const [comment_input, set_comment_input] = useState('');
 
@@ -81,13 +108,9 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
 
         const success = await uploadComment({ postid, text: comment_input, userjwt });
         if (success) {
-
-            alert('success');
+        
             queryClient.invalidateQueries(['comments', postid]);
-
-        } else {
-            alert('error');
-
+            set_comment_input('');
         }
     }
 
@@ -98,14 +121,15 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
                 <div className='close-header'>
                     <button className='closeBtn' onClick={() => setTrigger(false)}>X</button>
                 </div>
-                <div className='content-section, comments-section'>
+                <div className='content-section comments-section'>
                     {isError ? "Error loading comments" :
                         isLoading ? <p>Loading...</p> : 
                             comments_list.map((comment, index) => {
                                 const isLast = index === comments_list.length - 1;
                                 return (
                                     <Comment 
-                                        key={`comment ${comment.id}`} 
+                                        key={`comment ${comment.id}`}
+                                        postid = {postid}
                                         comment_data={comment}
                                         ref={isLast ? lastCommentRef : null}
                                     />
