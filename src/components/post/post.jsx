@@ -40,7 +40,8 @@ const Post = ({ id, forwardRef }) => {
         if (success){
 
             alert(`Post ${id} deleted`);
-            //queryClient.invalidateQueries(["fyp"]);
+            queryClient.invalidateQueries(['fyp_posts']);
+            queryClient.invalidateQueries(['user_posts']);
         }
     };
 

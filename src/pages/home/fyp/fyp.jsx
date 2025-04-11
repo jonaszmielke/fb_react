@@ -12,7 +12,6 @@ import Post from "../../../components/post/post";
 
 const ForYouPage = () => {
     const userjwt = Cookies.get('userjwt');
-    console.log(`jwt ${userjwt}`);
     const {
         data : postsData,
         fetchNextPage,
@@ -22,7 +21,7 @@ const ForYouPage = () => {
     } = useInfiniteQuery({
         queryKey: ['fyp_posts'],
         queryFn: ({ pageParam = 0 }) => 
-            fetchForYouPage(pageParam, userjwt), // Pass arguments separately
+            fetchForYouPage(pageParam, userjwt),
         getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined
     });
 

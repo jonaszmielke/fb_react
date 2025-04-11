@@ -1,7 +1,6 @@
 const fetchFyp = async (page, jwt) => {
 
     let url = `http://localhost:3000/api/fyp_posts?page=${page}`;
-    console.log(`Sending fyp request\njwt ${jwt}`);
     const response = await fetch(url, {
         method: 'GET',
         headers: {
