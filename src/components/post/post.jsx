@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 
 import fetchPost from "../../query/post/fetchpost";
 import likePost from "../../query/post/likepost";
+import deletePost from "../../query/post/deletepost";
 
 import CommentsPopup from "../commentspopup/commentspopup";
 
@@ -19,6 +20,7 @@ const date_options = {
 
 const Post = ({ id, forwardRef }) => {
     const userjwt = Cookies.get('userjwt');
+    const theuser = JSON.parse(Cookies.get('user'));
     const queryClient = useQueryClient();
 
     const { data: postDetails, isLoading } = useQuery({
@@ -29,6 +31,18 @@ const Post = ({ id, forwardRef }) => {
     });
 
     const [showCommentsPopup, setShowCommentsPopup] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const handleDelete = async () => {
+        
+        const success = await deletePost({post_id: id, jwt: userjwt});
+
+        if (success){
+
+            alert(`Post ${id} deleted`);
+            //queryClient.invalidateQueries(["fyp"]);
+        }
+    };
 
     if (isLoading) {
         return (
@@ -81,7 +95,21 @@ const Post = ({ id, forwardRef }) => {
                     <span>{date}</span>
                 </div>
                 <div>
-                    <p>...</p>
+                    <button 
+                        className="post_options_button" 
+                        onClick={() => setShowDropdown(!showDropdown)}
+                    >
+                        ...
+                    </button>
+                    { showDropdown && !isLoading ?
+                        postDetails.owner.id == theuser.id ?
+                            (
+                                <div className="dropdown-menu">
+                                    <button onClick={handleDelete}>Delete</button>
+                                </div>
+                            )
+                    : '' : ''
+                    }
                 </div>
             </div>
             <div>

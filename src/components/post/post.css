@@ -66,16 +66,24 @@
     margin: 0px;
     font-size: 16px;
     font-weight: 400;
+    display: flex;
+    justify-content: end;
+    align-items: start;
+    position: relative; /* Add this to ensure the dropdown menu is positioned relative to this container */
 }
-.postHeader>div:nth-of-type(2)>p{
 
-    height: 10px;
+
+.postHeader>div:nth-of-type(2)>button {
+    height: 40px;
     margin: 0px 10px 0px 0px;
 
     font-weight: bold;
     font-size: 30px;
-
     text-align: right;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
 }
 
 .post>div:nth-of-type(2){
@@ -163,4 +171,29 @@
 
 .comment_count{
     cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 90%; /* Adjusted to make it appear slightly higher */
+    right: 0;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dropdown-menu > button {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-menu > button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
