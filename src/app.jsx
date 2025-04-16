@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Cookies from 'js-cookie';
 
 import LoginPage from "./pages/login/login";
+import SingUpPage from "./pages/signup/singup";
 import ForYouPage from "./pages/home/fyp/fyp";
 import FriendRequestsPage from "./pages/home/friend_requests/friendrequests";
 import User from "./pages/user/user";
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="/home/fyp" element={<ForYouPage />} />
                     <Route path="/home/friend_requests" element={<FriendRequestsPage />} />
                     <Route path="/" element={<LoginPage />} />
+                    <Route path="/signup" element={<SingUpPage/>} />
                 </Routes>
             </QueryClientProvider>
         </BrowserRouter>

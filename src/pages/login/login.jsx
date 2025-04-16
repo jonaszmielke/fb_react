@@ -40,7 +40,7 @@ const LoginPage = () => {
                     <input id="password" type="password" value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder="Password"/>
                     <button type="submit">Log in</button>
                     <hr/>
-                    <Link to={"/singup"}>Create new account</Link>
+                    <Link to={"/signup"}>Create new account</Link>
                 </form>
             </section>
         </div>
