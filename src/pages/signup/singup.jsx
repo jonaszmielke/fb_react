@@ -128,13 +128,12 @@ const ImagesForm = ({ setStep }) => {
 
     const user = JSON.parse(Cookies.get('user'));
     let userjwt = Cookies.get('userjwt')
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
 
     const { data: userData, isLoading, isError } = useQuery({
         queryKey: ["userData", parseInt(user.id)],
         queryFn: ({ queryKey }) => {
-            return fetchUserData({queryKey, userjwt});
+            return fetchUserData({ queryKey, userjwt });
         }
     });
 
@@ -188,7 +187,21 @@ const ImagesForm = ({ setStep }) => {
                 />
 
             </section>
-            <button onClick={() => {navigate('/home/fyp')}} className='signup-button'>Done</button>
+            <button onClick={() => { setStep(3) }} className='signup-button'>Done</button>
+        </div>
+    )
+}
+
+
+const AllSetWindow = () => {
+
+    const navigate = useNavigate();
+
+    return (
+        <div className='all-set-window'>
+            <h1>You're all set</h1>
+            <p>Happy doomscrolling!</p>
+            <button onClick={() => { navigate('/home/fyp')}} className='signup-button'>Continue</button>
         </div>
     )
 }
@@ -246,6 +259,23 @@ function SignUpPage() {
                         <ImagesForm
                             setStep={setStep}
                         />
+
+                    </motion.div>
+                )}
+
+
+                {step === 3 && (
+                    <motion.div
+                        key='all-set-window'
+                        className='form-wrapper'
+                        variants={slideVariants}
+                        initial='enter'
+                        animate='center'
+                        exit='exit'
+                        transition={{ duration: 0.5 }}
+                    >
+
+                        <AllSetWindow />
 
                     </motion.div>
                 )}
