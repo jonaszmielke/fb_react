@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from "js-cookie";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import './signup.css'
 import { motion, AnimatePresence } from 'framer-motion';
 
 import ImageUploader from '../../components/imageUploader/ImageUploader';
+import fetchUserData from '../../query/user/fetchuserdata';
 
 const UserDataForm = ({ setStep }) => {
 
@@ -116,17 +118,37 @@ const UserDataForm = ({ setStep }) => {
     )
 }
 
+
+
+
 const ImagesForm = ({ setStep }) => {
 
     const [showProfilePhotoUpload, setShowProfilePhotoUpload] = useState(false)
     const [showBackgroundUpload, setShowBackgroundUpload] = useState(false)
 
     const user = JSON.parse(Cookies.get('user'));
+    let userjwt = Cookies.get('userjwt')
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    const { data: userData, isLoading, isError } = useQuery({
+        queryKey: ["userData", parseInt(user.id)],
+        queryFn: ({ queryKey }) => {
+            return fetchUserData({queryKey, userjwt});
+        }
+    });
+
+    useEffect(() => {
+        queryClient.invalidateQueries(["userData", parseInt(user.id)]);
+    }, [showProfilePhotoUpload, setShowBackgroundUpload]);
+
+
+    if (!isLoading)
+        console.log(userData)
 
     return (
 
-        <div>
+        <div className='images-form'>
 
             <section>
                 <div className="section_header">
@@ -134,7 +156,7 @@ const ImagesForm = ({ setStep }) => {
                     <p onClick={() => { setShowProfilePhotoUpload(true) }}>Edit</p>
                 </div>
                 <div className="content">
-                    <img className="edit_profile_profile_picture" src={`http://localhost:3000/app_images/profile_pictures/${user.profilePictureUrl}`} />
+                    <img className="edit_profile_profile_picture" src={`http://localhost:3000/app_images/profile_pictures/${isLoading && !isError ? 'default.jpg' : userData.profile_picture_url}`} />
                 </div>
 
                 <ImageUploader
@@ -153,7 +175,7 @@ const ImagesForm = ({ setStep }) => {
                     <p onClick={() => { setShowBackgroundUpload(true) }}>Edit</p>
                 </div>
                 <div className="content">
-                    <img className="edit_profile_background" src={`http://localhost:3000/app_images/backgrounds/${user.backgroundUrl}`} />
+                    <img className="edit_profile_background" src={`http://localhost:3000/app_images/backgrounds/${isLoading && !isError ? 'default.jpg' : userData.backgroundUrl}`} />
                 </div>
 
                 <ImageUploader
@@ -166,7 +188,7 @@ const ImagesForm = ({ setStep }) => {
                 />
 
             </section>
-            <button onClick={() => {navigate('/home/fyp')}}>Done</button>
+            <button onClick={() => {navigate('/home/fyp')}} className='signup-button'>Done</button>
         </div>
     )
 }
@@ -177,9 +199,9 @@ function SignUpPage() {
     //framer animation logic
     const [step, setStep] = useState(1)
     const slideVariants = {
-        enter: { x: '100%' },   // off‑screen to the right
+        enter: { x: '300%' },   // off‑screen to the right
         center: { x: 0 },        // in‑place
-        exit: { x: '-100%' }   // off‑screen to the left
+        exit: { x: '-300%' }   // off‑screen to the left
     }
 
 

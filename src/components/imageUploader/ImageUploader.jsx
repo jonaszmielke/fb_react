@@ -60,7 +60,7 @@ function ImageUploader({ aspect, title, url, refresh=false, trigger, setTrigger}
                     const updatedUserData = queryClient.getQueryData(["userData", parseInt(user.id)]);
                     if (updatedUserData) {
                         user.backgroundUrl = updatedUserData.backgroundUrl;
-                        Cookies.set('user', JSON.stringify(jwt.user), { sameSite: 'Strict' });
+                        Cookies.set('user', JSON.stringify(user), { sameSite: 'Strict' });
                     }
                 });
             }
