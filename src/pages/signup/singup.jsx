@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Cookies from "js-cookie";
 
 import './signup.css'
 
@@ -31,11 +32,14 @@ function SingUpPage() {
         }),
       });
 
-      await request.json();
-
       if (request.ok) {
+
+        const result = await request.json();
+        Cookies.set('userjwt', result.token, { sameSite: 'Strict', secure: true });
+        Cookies.set('user', JSON.stringify(result.user), { sameSite: 'Strict' });
         alert('successfully signed up!');
-        navigate('/');
+        navigate('/home/fyp');
+
       } else {
         wrong_data.style.display = 'block';
         wrong_data.innerText = 'something went wrong';
