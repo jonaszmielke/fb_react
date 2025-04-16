@@ -3,6 +3,9 @@ import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import fetchjwt from "./fetchjwt";
 import Cookies from 'js-cookie';
+import { useQuery } from "@tanstack/react-query";
+
+import fetchUserData from '../../query/user/fetchuserdata'
 
 export let token;
 

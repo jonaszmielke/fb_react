@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
+import { useQuery } from "@tanstack/react-query";
 import '../../components/popup.css';
 import './editprofile.css';
 
+import fetchUserData from "../../query/user/fetchuserdata";
 import ImageUploader from "../../components/imageUploader/ImageUploader";
 
 const EditProfileButton = () => {
@@ -34,6 +36,14 @@ const EditProfileButton = () => {
 const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
 
     const user = JSON.parse(Cookies.get('user'));
+    const userjwt = Cookies.get('userjwt');
+
+    const { data: userData, isLoading, isError } = useQuery({
+        queryKey: ["userData", parseInt(user.id)],
+        queryFn: ({ queryKey }) => {
+            return fetchUserData({ queryKey, userjwt });
+        }
+    });
 
     const [showProfilePhotoUpload, setShowProfilePhotoUpload] = useState(false);
     const [showBackgroundUpload, setShowBackgroundUpload] = useState(false);
@@ -56,7 +66,7 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
                         <p onClick={() => {setShowProfilePhotoUpload(true)}}>Edit</p>
                     </div>
                     <div className="content">
-                        <img className="edit_profile_profile_picture" src={`http://localhost:3000/app_images/profile_pictures/${user.profilePictureUrl}`}/>
+                        <img className="edit_profile_profile_picture" src={`http://localhost:3000/app_images/profile_pictures/${isLoading || isError ? 'default.jpg' : userData.profile_picture_url}`}/>
                     </div>
 
                     <ImageUploader 
@@ -75,7 +85,7 @@ const EditProfilePopup = ({trigger, setTrigger, jwt}) => {
                         <p onClick={() => {setShowBackgroundUpload(true)}}>Edit</p>
                     </div>
                     <div className="content">
-                        <img className="edit_profile_background" src={`http://localhost:3000/app_images/backgrounds/${user.backgroundUrl}`}/>
+                        <img className="edit_profile_background" src={`http://localhost:3000/app_images/backgrounds/${isLoading || isError ? 'default.jpg' : userData.backgroundUrl}`}/>
                     </div>
 
                     <ImageUploader 

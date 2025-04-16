@@ -155,7 +155,7 @@ const ImagesForm = ({ setStep }) => {
                     <p onClick={() => { setShowProfilePhotoUpload(true) }}>Edit</p>
                 </div>
                 <div className="content">
-                    <img className="edit_profile_profile_picture" src={`http://localhost:3000/app_images/profile_pictures/${isLoading && !isError ? 'default.jpg' : userData.profile_picture_url}`} />
+                    <img className="edit_profile_profile_picture" src={`http://localhost:3000/app_images/profile_pictures/${isLoading || isError ? 'default.jpg' : userData.profile_picture_url}`} />
                 </div>
 
                 <ImageUploader
@@ -174,7 +174,7 @@ const ImagesForm = ({ setStep }) => {
                     <p onClick={() => { setShowBackgroundUpload(true) }}>Edit</p>
                 </div>
                 <div className="content">
-                    <img className="edit_profile_background" src={`http://localhost:3000/app_images/backgrounds/${isLoading && !isError ? 'default.jpg' : userData.backgroundUrl}`} />
+                    <img className="edit_profile_background" src={`http://localhost:3000/app_images/backgrounds/${isLoading || isError ? 'default.jpg' : userData.backgroundUrl}`} />
                 </div>
 
                 <ImageUploader
