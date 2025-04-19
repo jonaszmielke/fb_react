@@ -9,6 +9,7 @@ import likePost from "../../query/post/likepost";
 import deletePost from "../../query/post/deletepost";
 
 import CommentsPopup from "../commentspopup/commentspopup";
+import { tr } from "framer-motion/client";
 
 const date_options = {
     month: 'short',
@@ -32,6 +33,7 @@ const Post = ({ id, forwardRef }) => {
 
     const [showCommentsPopup, setShowCommentsPopup] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [focused, setFocused] = useState(false)
 
     const handleDelete = async () => {
         
@@ -139,13 +141,22 @@ const Post = ({ id, forwardRef }) => {
                         </>
                     )}
                 </div>
-                <div className="comment-button" onClick={() => setShowCommentsPopup(true)}>
+                <div className="comment-button" onClick={() => {
+                    setFocused(true)
+                    setShowCommentsPopup(true)
+                }}>
                     <img src="http://localhost:3000/app_images/site/comment.svg" alt="Comment" />
                     <p>Comment</p>
                 </div>
             </div>
 
-            <CommentsPopup trigger={showCommentsPopup} setTrigger={setShowCommentsPopup} postid={id}/>
+            <CommentsPopup 
+                trigger={showCommentsPopup}
+                setTrigger={setShowCommentsPopup} 
+                postid={id}
+                focused={focused}
+                setFocused={setFocused}
+            />
 
         </div>
     );

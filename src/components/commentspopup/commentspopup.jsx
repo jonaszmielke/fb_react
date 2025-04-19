@@ -68,7 +68,7 @@ const Comment = forwardRef(({ comment_data, postid }, ref) => {
 
 
 
-function CommentsPopup({ trigger, setTrigger, postid }) {
+function CommentsPopup({ trigger, setTrigger, postid, focused=false, setFocused }) {
 
     const userjwt = Cookies.get('userjwt');
     const queryClient = useQueryClient();
@@ -119,7 +119,12 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
         <div className='popup'>
             <div className='popup-inner'>
                 <div className='close-header'>
-                    <button className='closeBtn' onClick={() => setTrigger(false)}>X</button>
+                    <button className='closeBtn' 
+                        onClick={() => {
+                            setTrigger(false)
+                            setFocused(false)
+                        }}>X
+                    </button>
                 </div>
                 <div className='content-section comments-section'>
                     {isError ? "Error loading comments" :
@@ -138,8 +143,13 @@ function CommentsPopup({ trigger, setTrigger, postid }) {
                     }
                 </div>
                 <div className='write_comment'>
-                    <input type='text' placeholder='Write a comment' value={comment_input} onChange={(e) => set_comment_input(e.target.value)}></input>
-                    <button id='submit_comment_button' onClick={() => uploadCommentHandler()}></button>
+                    <input autoFocus={focused} type='text' placeholder='Write a comment' value={comment_input} onChange={(e) => set_comment_input(e.target.value)}></input>
+                    <button id='submit_comment_button' 
+                        onClick={() => {
+                            uploadCommentHandler()
+                            setFocused(false)  
+                        }}>
+                    </button>
                 </div>
             </div>
         </div>
