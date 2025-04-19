@@ -27,12 +27,15 @@
     padding: 0px;
 }
 
-.friend_request img {
+.friend_request_img{
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     width: 100%;
     height: auto;
     object-fit: cover;
+}
+.friend_request_img_div{
+    min-height: 266px;
 }
 
 .friend_request>div:nth-of-type(2){

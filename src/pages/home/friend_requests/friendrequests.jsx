@@ -25,8 +25,8 @@ const FriendRequest = ({ data, forwardRef, onRequestHandled }) => {
 
     return (
         <div className='friend_request' ref={forwardRef}>
-            <div>
-                <img src={`http://localhost:3000/app_images/profile_pictures/${data.sender.profilePictureUrl}`} alt="user's profile picture" />
+            <div className='friend_request_img_div'>
+                <img src={`http://localhost:3000/app_images/profile_pictures/${data.sender.profilePictureUrl}`} className='friend_request_img' alt="user's profile picture" />
             </div>
             <div>
                 <h3 className='user_name'>{data.sender.name} {data.sender.surname}</h3>

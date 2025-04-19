@@ -116,9 +116,7 @@ const User = () => {
                 </div>
             </div>
             <div className="userbody">
-                <section>
-                    <h1>id = {userid}</h1>
-                </section>
+                <section></section>
                 <section>
                     <div>
                         <div id="friends" className="friends">
