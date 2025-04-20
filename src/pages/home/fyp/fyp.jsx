@@ -9,6 +9,7 @@ import "./fyp.css";
 
 import Header from "../../../components/header";
 import Post from "../../../components/post/post";
+import MakePostPopup from "./makepost";
 
 
 const ForYouPage = () => {
@@ -51,6 +52,7 @@ const ForYouPage = () => {
         }
     });
 
+    const [makePostVisible, setMakePostVisible] = useState(false);
 
     return (
         <div id="main">
@@ -71,6 +73,10 @@ const ForYouPage = () => {
                         >
                             What are you thinking about, {userData.name}?
                         </p>
+                        <MakePostPopup
+                            trigger={makePostVisible}
+                            setTrigger={setMakePostVisible}
+                        />
 
                     </div>
 
