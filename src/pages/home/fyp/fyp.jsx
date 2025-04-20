@@ -10,6 +10,7 @@ import "./fyp.css";
 import Header from "../../../components/header";
 import Post from "../../../components/post/post";
 import MakePostPopup from "./makepost";
+import { tr } from "framer-motion/client";
 
 
 const ForYouPage = () => {
@@ -69,13 +70,14 @@ const ForYouPage = () => {
                         />
                         <p
                             className="make_post_input"
-                            onClick={() => {}}
+                            onClick={() => {setMakePostVisible(true)}}
                         >
-                            What are you thinking about, {userData.name}?
+                            What are you thinking about{isUserDataLoading || isUserDataError ? '' : `, ${userData.name}`}?
                         </p>
                         <MakePostPopup
                             trigger={makePostVisible}
                             setTrigger={setMakePostVisible}
+                            user={userData}
                         />
 
                     </div>
