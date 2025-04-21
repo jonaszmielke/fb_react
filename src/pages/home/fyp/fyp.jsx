@@ -9,9 +9,7 @@ import "./fyp.css";
 
 import Header from "../../../components/header";
 import Post from "../../../components/post/post";
-import MakePostPopup from "./makepost";
-import { tr } from "framer-motion/client";
-
+import MakePostPopup from "../../../components/makepost/makepost";
 
 const ForYouPage = () => {
     const userjwt = Cookies.get('userjwt');

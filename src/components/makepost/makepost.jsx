@@ -1,6 +1,11 @@
+import { useState } from 'react';
 import styles from './makepost.module.css'
+import ImageSection from './imagesection';
 
 function MakePostPopup({ trigger, setTrigger, user }) {
+
+    const [text, setText] = useState('');
+
     return trigger || user ? (
 
         <div className='popup'>
@@ -16,9 +21,9 @@ function MakePostPopup({ trigger, setTrigger, user }) {
                     />
                     <p>{user.name} {user.surname}</p>
                 </div>
-                <textarea placeholder={`What are you thinking about, ${user.name}`}></textarea>
+                <textarea value={text} onChange={(e) => {setText(e.target.value)}} placeholder={`What are you thinking about, ${user.name}`}></textarea>
                 <div className={styles.postActions}>
-                    <div>Add to post</div>
+                    <ImageSection/>
                     <button type="submit">Submit</button>
                 </div>
             </form>
