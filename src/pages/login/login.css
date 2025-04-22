@@ -1,4 +1,4 @@
-.login-page{
+.login-page {
     height: 50vh;
     width: 50vw;
     margin: 0px 25vw 50vh 25vw;
@@ -9,7 +9,7 @@
     justify-content: center;
 }
 
-.login-page>section{
+.login-page>section {
     height: 100%;
     width: 100%;
 
@@ -18,26 +18,26 @@
     align-items: center;
 }
 
-.login-page>section>div{
+.login-page>section>div {
     margin-bottom: 100px;
 }
 
-.login-page>section>div>h1{
+.login-page>section>div>h1 {
     width: 500px;
     font-size: 60px;
     color: #0866ff;
     margin-bottom: 0px;
 }
 
-.login-page>section>div>h2{
+.login-page>section>div>h2 {
     width: 500px;
     font-weight: normal;
     font-size: 28px;
     margin-top: 10px;
 }
 
-.login-page>section>form{
-    
+.login-page>section>form {
+
     height: 360px;
     width: 350px;
 
@@ -49,10 +49,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
 }
 
-.login-page>section>form>input{
+.login-page>section>form>input {
     width: 300px;
     height: 22px;
     padding: 16px;
@@ -63,47 +63,217 @@
     font-size: 17px;
 }
 
-.login-page>section>form>button{
-    
+.login-page>section>form>button {
+
     height: 48px;
     width: 300px;
-    
+
     padding: 0px 16px;
     border: 1px solid grey;
     border-radius: 10px;
-    
+
     color: white;
     background-color: #0866ff;
-    
+
     text-align: center;
     font-size: 16px;
     font-weight: bold;
 }
-.login-page>section>form>a{
-    
+
+.login-page>section>form>a {
+
     height: 20px;
     width: 160px;
-    
+
     padding: 5px 16px;
     border-radius: 10px;
 
     color: white;
     background-color: #41b62a;
-    
+
     text-align: center;
     font-size: 16px;
     text-decoration: none;
     font-weight: bold;
 }
 
-.login-page>section>form>hr{
+.login-page>section>form>hr {
     width: 90%;
     margin: 20px 0px;
 }
 
-.wrong{
+.wrong {
     color: red;
     text-align: center;
     visibility: hidden;
     margin: 0px;
 }
+
+/* wrap & space out the repo area */
+.links {
+    display: flex;
+    flex-wrap: wrap;
+    /* allow children to wrap to next line */
+    align-items: center;
+    gap: 1rem;
+    /* space between items */
+    margin-top: 2rem;
+}
+
+/* make the header + GitHub icon take the full row */
+.check-repos {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    /* space between “Check…” and the icon */
+    width: 100%;
+    /* force it to its own line */
+}
+
+/* now the two .repo-link pills will sit neatly below */
+.repo-link {
+    /* your existing pill styling */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background-color: #f0f2f5;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #24292e;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.repo-link:hover {
+    background-color: #e1e4e8;
+    transform: translateY(-1px);
+}
+
+.repo-link:active {
+    background-color: #d1d5da;
+    transform: translateY(0);
+}
+
+/* icon sizing */
+.repo-link svg,
+.repo-link img {
+    width: 20px;
+    height: 20px;
+}
+
+/* label text */
+.repo-link p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* react icon color */
+.repo-link .react-icon {
+    color: #58c4dc;
+}
+
+
+/* assign each .repo-link to its grid cell */
+.links>.repo-link:nth-of-type(1) {
+    grid-area: repo1;
+}
+
+.links>.repo-link:nth-of-type(2) {
+    grid-area: repo2;
+}
+
+.check-repos h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.check-repos .github-icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    color: #24292e;
+}
+
+/* each repo link pill */
+.repo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background-color: white;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #24292e;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.repo-link:hover {
+    background-color: #e1e4e8;
+    transform: translateY(-1px);
+}
+
+.repo-link:active {
+    background-color: #d1d5da;
+    transform: translateY(0);
+}
+
+/* icon sizing inside the pill */
+.repo-link svg,
+.repo-link img {
+    width: 20px;
+    height: 20px;
+}
+
+/* repo-label text */
+.repo-link p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.repo-link svg {
+    color: #58c4dc;
+}
+
+.repo-link svg circle {
+    fill: currentColor;
+}
+
+.repo-link svg g {
+    stroke: currentColor;
+}
+
+.react-link:hover{
+    background-color: #58c4dc;
+}
+
+.react-link:hover>svg{
+    color: black;
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.node-link:hover{
+    background-color: #80bd00;
+}
+
+/* the default Node icon */
+.node-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background:
+      url("../../icons/node.svg")
+      center/contain no-repeat;
+    transition: background-image 0.2s;
+  }
+  
+  /* on hover, switch to the black logo */
+  .node-link:hover .node-icon {
+    background-image: url("../../icons/node_black.svg");
+  }
+  
