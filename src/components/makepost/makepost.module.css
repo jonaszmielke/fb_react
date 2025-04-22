@@ -69,7 +69,8 @@
 
 /* Textarea */
 .popupInner textarea {
-    box-sizing: border-box;  /* include padding in width */
+    box-sizing: border-box;
+    /* include padding in width */
     width: 100%;
     height: 120px;
     resize: none;
@@ -79,8 +80,8 @@
     color: #050505;
     margin: 12px 0px;
     outline: none;
-  }
-  
+}
+
 .popupInner textarea:focus {
     box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
 }
@@ -155,7 +156,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    padding: 12px;
+    padding: 0px 0px 6px 0px;
     z-index: 1002;
 }
 
@@ -197,6 +198,9 @@
     /* fill available height in the modal */
     overflow: hidden;
     /* clip the cropping viewport */
+    border-top-left-radius: 8px;
+    /* ← match your modal */
+    border-top-right-radius: 8px;
 }
 
 /* ensure the controls sit above the Cropper canvas */
