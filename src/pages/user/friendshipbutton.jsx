@@ -128,7 +128,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             <>
                 <button className="friendship_button grey" onClick={() => setShowConfirmPopup(true)}>
                     <img
-                        src="http://localhost:3000/app_images/site/friends.svg"
+                        src="../../icons/friends.svg"
                         alt="Add Friend"
                         className="add_friend_icon"
                     />
@@ -149,7 +149,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             <>
                 <button className="friendship_button grey" onClick={() => setShowConfirmPopup(true)}>
                     <img
-                        src="http://localhost:3000/app_images/site/cancel_request.svg"
+                        src="../../icons/cancel_request.svg"
                         alt="Add Friend"
                         className="add_friend_icon"
                     />
@@ -169,7 +169,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         return (
             <button className="friendship_button blue" onClick={handleAcceptInvitation}>
                 <img
-                    src="http://localhost:3000/app_images/site/add-friend.svg"
+                    src="../../icons/add-friend.svg"
                     alt="Add Friend"
                     className="add_friend_icon"
                 />
@@ -181,7 +181,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
         return (
             <button className="friendship_button blue" onClick={handleAddFriend}>
                 <img
-                    src="http://localhost:3000/app_images/site/add-friend.svg"
+                    src="../../icons/add-friend.svg"
                     alt="Add Friend"
                     className="add_friend_icon"
                 />

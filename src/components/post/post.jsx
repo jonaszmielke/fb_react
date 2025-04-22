@@ -122,7 +122,7 @@ const Post = ({ id, forwardRef }) => {
             <div className="post-footer">
                 <div className="stats">
                     <div>
-                        <img src="http://localhost:3000/app_images/site/like.svg" alt="Ammount of likes" />
+                        <img src="../../icons/like.svg" alt="Ammount of likes" />
                         <p>{postDetails.likeCount}</p>    
                     </div>
                     <p onClick={() => {setShowCommentsPopup(true)}} className="comment_count">{postDetails.commentCount} comments</p>
@@ -131,12 +131,12 @@ const Post = ({ id, forwardRef }) => {
 
                     {postDetails.isLikedByUser ? (
                         <>
-                            <img src="http://localhost:3000/app_images/site/liked.svg" alt="Liked" />
+                            <img src="../../icons/liked.svg" alt="Liked" />
                             <p>Liked</p>
                         </>
                     ) : (
                         <>
-                            <img src="http://localhost:3000/app_images/site/like2.svg" alt="Like" />
+                            <img src="../../icons/like2.svg" alt="Like" />
                             <p>Like</p>
                         </>
                     )}
@@ -145,7 +145,7 @@ const Post = ({ id, forwardRef }) => {
                     setFocused(true)
                     setShowCommentsPopup(true)
                 }}>
-                    <img src="http://localhost:3000/app_images/site/comment.svg" alt="Comment" />
+                    <img src="../../icons/comment.svg" alt="Comment" />
                     <p>Comment</p>
                 </div>
             </div>

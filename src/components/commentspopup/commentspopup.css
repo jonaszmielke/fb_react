@@ -130,10 +130,10 @@
     border: none;
 
 
-    background-image: url('http://localhost:3000/app_images/site/send.svg');
+    background-image: url('../../icons/send.svg');
     background-size: cover;
     transition: background-image 0.3s ease;
 }
 .write_comment>button:hover{
-    background-image: url('http://localhost:3000/app_images/site/send_blue.svg');
+    background-image: url('../../icons/send_blue.svg');
 }

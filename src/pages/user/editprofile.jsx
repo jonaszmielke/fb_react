@@ -16,7 +16,7 @@ const EditProfileButton = () => {
         <>
             <button className="friendship_button grey" onClick={() => {setShowEditProfile(true)}}>
                 <img
-                    src="http://localhost:3000/app_images/site/pencil.svg"
+                    src="../../icons/pencil.svg"
                     alt="Add Friend"
                     className="add_friend_icon"
                 />
