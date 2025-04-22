@@ -13,13 +13,13 @@
     flex-direction: column;
 }
 
-/* Header section with title and close button */
+/* Header */
 .makePostHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ececec;
-    padding: 0px 12px 12px 12px;
+    padding: 0 12px 12px;
     margin-bottom: 12px;
 }
 
@@ -36,7 +36,6 @@
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
-    line-height: 1;
     color: #606770;
     transition: color 0.2s;
 }
@@ -45,12 +44,12 @@
     color: #050505;
 }
 
-/* User info row */
+/* User info */
 .makePostUser {
     display: flex;
-    align-items: start;
+    align-items: center;
+    padding: 0 12px;
     margin-bottom: 12px;
-    padding-left: 12px;
 }
 
 .makePostUser img {
@@ -68,9 +67,9 @@
     margin: 0;
 }
 
-/* Textarea for post content */
+/* Textarea */
 .popupInner textarea {
-    box-sizing: border-box;
+    box-sizing: border-box;  /* include padding in width */
     width: 100%;
     height: 120px;
     resize: none;
@@ -78,25 +77,25 @@
     padding: 8px;
     font-size: 15px;
     color: #050505;
-    margin-bottom: 12px;
+    margin: 12px 0px;
     outline: none;
-}
-
+  }
+  
 .popupInner textarea:focus {
-    border: none;
     box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
 }
 
-/* “Add to post” placeholder */
-.popupInner>div {
-    font-size: 14px;
-    color: #606770;
-    margin-bottom: 12px;
+/* Post actions wrapper */
+.postActions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 12px;
+    margin-top: 12px;
 }
 
-/* Submit button */
-.popupInner button[type="submit"] {
-    align-self: flex-end;
+.postActions button[type="submit"] {
+    width: 100%;
     background-color: #1877f2;
     color: #fff;
     border: none;
@@ -108,50 +107,15 @@
     transition: background-color 0.2s;
 }
 
-.popupInner button[type="submit"]:hover {
+.postActions button[type="submit"]:hover {
     background-color: #166fe5;
 }
 
-/* new section wrapper */
-.postActions {
+/* “Add to post” row */
+.AddToPost {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    /* space between the text and the button */
-    padding: 0 12px;
-    /* match your side‑gutters elsewhere */
-    margin-top: 12px;
-    /* separation from textarea */
-}
-
-/* make the submit button full‑width of its container */
-.postActions button[type="submit"] {
-    width: 100%;
-}
-
-
-.AddImageButton{
-    background: none;
-    border: none;
-
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.AddImageButton > img {
-    width: 20px;
-    height: 20px;
-}
-
-.AddToPost{
-    box-sizing: border-box;
-    width: 100%;
-    display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
-    padding-right: 15px;
 }
 
 .previewThumb {
@@ -160,5 +124,92 @@
     object-fit: cover;
     border-radius: 4px;
     margin-right: 8px;
-  }
-  
+}
+
+.AddImageButton {
+    background: none;
+    border: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.AddImageButton>img {
+    width: 20px;
+    height: 20px;
+}
+
+/* ——— Cropper modal & controls ——— */
+.cropModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    max-width: 90%;
+    height: 400px;
+    max-height: 90%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    z-index: 1002;
+}
+
+.cropModal .reactEasyCrop_Container {
+    flex: 1;
+    position: relative;
+}
+
+.cropControls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.cropControls input[type="range"] {
+    flex: 1;
+}
+
+.cropButton {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cropButton:hover {
+    background-color: #166fe5;
+}
+
+/* container around the Cropper to clip and layer properly */
+.cropContainer {
+    position: relative;
+    flex: 1;
+    /* fill available height in the modal */
+    overflow: hidden;
+    /* clip the cropping viewport */
+}
+
+/* ensure the controls sit above the Cropper canvas */
+.cropControls {
+    position: relative;
+    z-index: 10;
+    background: #fff;
+    /* match modal background */
+    padding: 8px 12px;
+    /* give some breathing room */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* (you may remove any inline styles you added earlier) */
