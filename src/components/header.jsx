@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useQuery } from "@tanstack/react-query";
 import fetchUserData from '../query/user/fetchuserdata';
+import { useState } from "react";
 
 const Header = ({selected}) => {
 
@@ -17,10 +18,17 @@ const Header = ({selected}) => {
 
     const navigate = useNavigate();
 
+    const [searchQuery, setSearchQuery] = useState('')
+
     return(
         <header>
             <div>
-                <input type="text" id="searchbar" placeholder="Search on fb app"/>
+                <form onSubmit={(e) => {
+                    e.preventDefault(); // Prevent default form submission
+                    navigate(`/home/search?query=${encodeURIComponent(searchQuery)}`);
+                }}>
+                    <input value={searchQuery} onChange={ (e) => setSearchQuery(e.target.value) } type="text" id="searchbar" placeholder="Search on fb app"/>
+                </form>
             </div>
             <nav>
                 <Link to={"/home/fyp"}>
