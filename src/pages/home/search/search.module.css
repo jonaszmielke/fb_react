@@ -1,0 +1,49 @@
+.users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user {
+    background-color: white;
+    border-radius: 20px;
+    border: 1px solid grey;
+    width: 680px;
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    margin-bottom: 30px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 16px;
+}
+
+.user_data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user_data>p {
+    margin: 0px;
+}
+
+.user_data>h3 {
+    margin: 0px 0px 6px 0px;
+}
+
+.posts {
+    display: grid;
+    grid-template-columns: repeat(3, 680px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 680px);
+    gap: 30px;
+    justify-content: center;
+    padding: 0 16px;
+}

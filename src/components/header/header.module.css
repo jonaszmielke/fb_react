@@ -1,0 +1,63 @@
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    height: 56px;
+    border-bottom: 1px solid gray;
+    margin-bottom: 40px;
+    background-color: white;
+}
+
+.left,
+.nav,
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.left {
+    justify-content: flex-start;
+    padding-left: 50px;
+}
+
+.searchInput {
+    width: 233px;
+    height: 24px;
+    border: none;
+    border-radius: 50px;
+    padding: 7px 8px 9px 15px;
+    font-size: 15px;
+    background-color: #f2f4f7;
+}
+
+.searchInput:focus {
+    outline: none;
+    border: none;
+}
+
+.nav {
+    justify-content: center;
+    gap: 30px;
+}
+
+.navLink {
+    text-decoration: none;
+}
+
+.navImg {
+    width: 40px;
+    height: 40px;
+}
+
+.right {
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
+.profilePicture {
+    width: 45px;
+    height: 45px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    cursor: pointer;
+}

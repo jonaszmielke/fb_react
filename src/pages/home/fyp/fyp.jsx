@@ -1,13 +1,13 @@
 //import { token } from "../login/login";
 import { useEffect, useState, useRef, useCallback } from "react";
-import { useQuery ,useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import fetchForYouPage from "../../../query/fetchfyp";
 import Cookies from 'js-cookie';
 import fetchUserData from "../../../query/user/fetchuserdata";
 
 import "./fyp.css";
 
-import Header from "../../../components/header";
+import Header from "../../../components/header/header";
 import Post from "../../../components/post/post";
 import MakePostPopup from "../../../components/makepost/makepost";
 
@@ -15,14 +15,14 @@ const ForYouPage = () => {
     const userjwt = Cookies.get('userjwt');
     const user = JSON.parse(Cookies.get('user'));
     const {
-        data : postsData,
+        data: postsData,
         fetchNextPage,
         hasNextPage,
         isLoading,
         isError,
     } = useInfiniteQuery({
         queryKey: ['fyp_posts'],
-        queryFn: ({ pageParam = 0 }) => 
+        queryFn: ({ pageParam = 0 }) =>
             fetchForYouPage(pageParam, userjwt),
         getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined
     });
@@ -55,20 +55,20 @@ const ForYouPage = () => {
 
     return (
         <div id="main">
-            <Header selected={1}/>
+            <Header selected={1} />
             <div className="body_fyp">
                 <section></section>
                 <section id="posts" className="posts">
 
                     <div className="make_post">
 
-                        <img 
+                        <img
                             className="headerProfilePicture"
-                            src={`http://localhost:3000/app_images/profile_pictures/${isUserDataLoading || isUserDataError ? 'default.jpg' : userData.profile_picture_url}`} 
+                            src={`http://localhost:3000/app_images/profile_pictures/${isUserDataLoading || isUserDataError ? 'default.jpg' : userData.profile_picture_url}`}
                         />
                         <p
                             className="make_post_input"
-                            onClick={() => {setMakePostVisible(true)}}
+                            onClick={() => { setMakePostVisible(true) }}
                         >
                             What are you thinking about{isUserDataLoading || isUserDataError ? '' : `, ${userData.name}`}?
                         </p>
@@ -80,18 +80,18 @@ const ForYouPage = () => {
 
                     </div>
 
-                    { isLoading ? 'Loading' :
-                        isError ? 'Error' : 
+                    {isLoading ? 'Loading' :
+                        isError ? 'Error' :
                             posts.map((id, index) => {
-                            const isLast = index === posts.length - 1;
-                            return (
-                                <Post 
-                                    forwardRef={isLast ? lastPostRef : null} 
-                                    key={`post ${id}`} 
-                                    id={id} 
-                                />
-                            )
-                        })
+                                const isLast = index === posts.length - 1;
+                                return (
+                                    <Post
+                                        forwardRef={isLast ? lastPostRef : null}
+                                        key={`post ${id}`}
+                                        id={id}
+                                    />
+                                )
+                            })
                     }
                 </section>
                 <section></section>

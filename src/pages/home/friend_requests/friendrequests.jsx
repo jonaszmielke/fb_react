@@ -2,7 +2,7 @@ import React, { useRef, useCallback } from 'react';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
-import Header from '../../../components/header';
+import Header from '../../../components/header/header';
 
 import fetchFriendRequests from '../../../query/friend_request/fetchfriendrequests';
 import handleFriendRequest from '../../../query/friend_request/handlefriendrequest';

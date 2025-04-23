@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import fetchUserData from "../../query/user/fetchuserdata";
 import fetchUsersPosts from "../../query/user/fetchusersposts";
 
-import Header from "../../components/header";
+import Header from "../../components/header/header";
 import Post from "../../components/post/post";
 import FriendsPopup from "../../components/friendspopup/friendspopup";
 import FriendshipButton from "./friendshipbutton";
