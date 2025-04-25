@@ -1,4 +1,4 @@
-import React, {useRef, useCallback, forwardRef, useState} from 'react'
+import React, { useRef, useCallback, forwardRef, useState } from 'react';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
@@ -6,155 +6,147 @@ import fetchComments from '../../query/post/fetchcomments';
 import uploadComment from '../../query/post/uploadcomment';
 import deleteComment from '../../query/post/deletecomment';
 
-import '../popup.css';
-import './commentspopup.css';
-import { data } from 'react-router-dom';
+import styles from './commentspopup.module.css';
 
-const date_options = {
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
+const dateOptions = {
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
 };
 
-
 const Comment = forwardRef(({ comment_data, postid }, ref) => {
+  const theUser = JSON.parse(Cookies.get('user'));
+  const userJwt = Cookies.get('userjwt');
+  const queryClient = useQueryClient();
+  const [showOptions, setShowOptions] = useState(false);
 
-    const theuser = JSON.parse(Cookies.get('user'));
-    const userjwt = Cookies.get('userjwt');
-    const queryClient = useQueryClient();
-    const [showOptions, setShowOptions] = useState(false); // State for dropdown visibility
+  let date = new Date(comment_data.createdAt);
+  date = date.toLocaleString('en-UK', dateOptions);
 
-    let date = new Date(comment_data.createdAt);
-    date = date.toLocaleString('en-UK', date_options);
+  const toggleOptions = () => setShowOptions(!showOptions);
+  const handleDelete = async () => {
+    const success = await deleteComment({ comment_id: comment_data.id, jwt: userJwt });
+    if (success) queryClient.invalidateQueries(['comments', postid]);
+    setShowOptions(false);
+  };
 
-    const toggleOptions = () => setShowOptions(!showOptions); // Toggle dropdown visibility
-    const handleDelete = async () => {
-
-        const success = await deleteComment({comment_id: comment_data.id, jwt: userjwt})
-        if (success) queryClient.invalidateQueries(['comments', postid]);
-        
-        setShowOptions(false);
-    };
-
-    return (
-        <span className='comment' ref={ref}>
-            <img 
-                src={`http://localhost:3000/app_images/profile_pictures/${comment_data?.owner.profilePictureUrl || "default.jpg"}`} 
-                alt="Profile"
-                className="comment-profile-pic"
-            />
-            <div className="comment-content">
-                <div className='comment-header'>
-                    <span className='comment-name'>{comment_data.owner.name} {comment_data.owner.surname}</span>
-                    <span className='comment-date'>{date}</span>
-                    { comment_data.owner.id == theuser.id && (
-                        <>
-                            <button onClick={toggleOptions}>...</button>
-                            {showOptions && (
-                                <div className="comment-options">
-                                    <button onClick={handleDelete}>Delete</button>
-                                </div>
-                            )}
-                        </>
-                    )}
+  return (
+    <div className={styles.comment} ref={ref}>
+      <img
+        src={`http://localhost:3000/app_images/profile_pictures/${comment_data?.owner.profilePictureUrl || 'default.jpg'}`}
+        alt="Profile"
+        className={styles.commentProfilePic}
+      />
+      <div className={styles.commentContent}>
+        <div className={styles.commentHeader}>
+          <span className={styles.commentName}>{comment_data.owner.name} {comment_data.owner.surname}</span>
+          {comment_data.owner.id === theUser.id && (
+            <div className={styles.commentOptions}>
+              <button onClick={toggleOptions}>⋯</button>
+              {showOptions && (
+                <div className={styles.commentOptionsDropdown}>
+                  <button onClick={handleDelete}>Delete</button>
                 </div>
-                <p className='comment-text'>{comment_data.text}</p>
+              )}
             </div>
-        </span>
-    );
+          )}
+          <span className={styles.commentDate}>{date}</span>
+        </div>
+        <p className={styles.commentText}>{comment_data.text}</p>
+      </div>
+    </div>
+  );
 });
 
+function CommentsPopup({ trigger, setTrigger, postid, focused = false, setFocused }) {
+  const userJwt = Cookies.get('userjwt');
+  const queryClient = useQueryClient();
 
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: ['comments', postid],
+    queryFn: ({ pageParam = 0, queryKey }) =>
+      fetchComments({ queryKey, jwt: userJwt, page: pageParam }),
+    getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined,
+  });
 
-function CommentsPopup({ trigger, setTrigger, postid, focused=false, setFocused }) {
-
-    const userjwt = Cookies.get('userjwt');
-    const queryClient = useQueryClient();
-
-    const {
-        data,
-        fetchNextPage,
-        hasNextPage,
-        isLoading,
-        isError,
-    } = useInfiniteQuery({
-        queryKey: ['comments', postid],
-        queryFn: ({ pageParam = 0, queryKey}) => 
-            fetchComments({ queryKey: queryKey, jwt: userjwt, page: pageParam }),
-        getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined
+  const commentsList = data?.pages.flatMap(page => page.list) || [];
+  const observer = useRef();
+  const lastCommentRef = useCallback(node => {
+    if (isLoading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
     });
+    if (node) observer.current.observe(node);
+  }, [isLoading, hasNextPage]);
 
-    const comments_list = data?.pages.flatMap(page => page.list);
-
-    const observer = useRef();
-    const lastCommentRef = useCallback(node => {
-        if (isLoading) return;
-        if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasNextPage) {
-                fetchNextPage();
-            }
-        });
-        if (node) observer.current.observe(node);
-    }, [isLoading, hasNextPage]);
-
-
-    //commenting
-    const [comment_input, set_comment_input] = useState('');
-
-    const uploadCommentHandler = async () => {
-
-        const success = await uploadComment({ postid, text: comment_input, userjwt });
-        if (success) {
-        
-            queryClient.invalidateQueries(['comments', postid]);
-            set_comment_input('');
-        }
+  const [commentInput, setCommentInput] = useState('');
+  const uploadCommentHandler = async () => {
+    const success = await uploadComment({ postid, text: commentInput, userjwt: userJwt });
+    if (success) {
+      queryClient.invalidateQueries(['comments', postid]);
+      setCommentInput('');
     }
+  };
 
-    return (trigger) ? (
-  
-        <div className='popup'>
-            <div className='popup-inner'>
-                <div className='close-header'>
-                    <button className='closeBtn' 
-                        onClick={() => {
-                            setTrigger(false)
-                            setFocused(false)
-                        }}>X
-                    </button>
-                </div>
-                <div className='content-section comments-section'>
-                    {isError ? "Error loading comments" :
-                        isLoading ? <p>Loading...</p> : 
-                            comments_list.map((comment, index) => {
-                                const isLast = index === comments_list.length - 1;
-                                return (
-                                    <Comment 
-                                        key={`comment ${comment.id}`}
-                                        postid = {postid}
-                                        comment_data={comment}
-                                        ref={isLast ? lastCommentRef : null}
-                                    />
-                                );
-                            })
-                    }
-                </div>
-                <div className='write_comment'>
-                    <input autoFocus={focused} type='text' placeholder='Write a comment' value={comment_input} onChange={(e) => set_comment_input(e.target.value)}></input>
-                    <button id='submit_comment_button' 
-                        onClick={() => {
-                            uploadCommentHandler()
-                            setFocused(false)  
-                        }}>
-                    </button>
-                </div>
-            </div>
+  if (!trigger) return null;
+
+  return (
+    <div className={styles.popup}>
+      <div className={styles.popupInner}>
+        <div className={styles.closeHeader}>
+          <button
+            className={styles.closeBtn}
+            onClick={() => { setTrigger(false); setFocused(false); }}
+          >
+            ×
+          </button>
         </div>
-
-    ) : "";
+        <div className={styles.commentsSection}>
+          {isError ? (
+            <p>Error loading comments</p>
+          ) : isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            commentsList.map((comment, index) => {
+              const isLast = index === commentsList.length - 1;
+              return (
+                <Comment
+                  key={comment.id}
+                  ref={isLast ? lastCommentRef : null}
+                  comment_data={comment}
+                  postid={postid}
+                />
+              );
+            })
+          )}
+        </div>
+        <div className={styles.writeComment}>
+          <input
+            autoFocus={focused}
+            type="text"
+            placeholder="Write a comment..."
+            value={commentInput}
+            onChange={e => setCommentInput(e.target.value)}
+          />
+          <button
+            className={styles.submitButton}
+            onClick={() => { uploadCommentHandler(); setFocused(false); }}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default CommentsPopup
+export default CommentsPopup;
