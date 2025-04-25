@@ -9,7 +9,6 @@ const fetchUnfriend = async ({jwt, friend_id, friendship_id}) => {
     });
 
     if (!response.ok) {
-        console.log(response);
         throw new Error(`Failed to remove friendship friend_id: ${friend_id}, friendship_id: ${friendship_id}`);
     }
 

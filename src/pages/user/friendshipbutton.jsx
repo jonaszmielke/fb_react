@@ -49,7 +49,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             }));
             setStatus("friends");
 
-        } else console.log("Error, friend request was not accepted");
+        } //else console.log("Error, friend request was not accepted");
     };
 
     const handleCancelInvitation = async () => {
@@ -68,7 +68,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             }));
             setStatus("not_friends");
 
-        } else console.log("Error, friend request was not cancelled");
+        } //else console.log("Error, friend request was not cancelled");
     }
 
     const handleUnfriend = async () => {
@@ -83,7 +83,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             }));
             setStatus("not_friends");
 
-        } else console.log("Error, friendship was not deleted");
+        } //else console.log("Error, friendship was not deleted");
     }
 
     const handleAddFriend = async () => {
@@ -100,7 +100,7 @@ const FriendshipButton = ({ userData, isLoading, queryClient }) => {
             }));
             setStatus("invited_them");
 
-        } else console.log("Error, friend request was not sent");
+        } //else console.log("Error, friend request was not sent");
     };
 
 

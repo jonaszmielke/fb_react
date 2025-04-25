@@ -64,7 +64,7 @@ function ImageUploader({ aspect, title, url, refresh=false, trigger, setTrigger}
                     }
                 });
             }
-            alert('Image uploaded successfully!');
+            setTrigger(false)
 
         } catch (e) {
 

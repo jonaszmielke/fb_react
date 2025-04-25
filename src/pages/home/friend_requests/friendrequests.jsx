@@ -16,10 +16,10 @@ const FriendRequest = ({ data, forwardRef, onRequestHandled }) => {
         const userjwt = Cookies.get('userjwt');
         const response = await handleFriendRequest({ action: action, friendRequestId: data.id, jwt: userjwt });
         if (response.ok) {
-            console.log(`Friend request ${action}ed`);
+            //console.log(`Friend request ${action}ed`);
             onRequestHandled(data.id);
         } else {
-            console.log(`Error, friend request was not ${action}ed`);
+            //console.log(`Error, friend request was not ${action}ed`);
         }
     }
 

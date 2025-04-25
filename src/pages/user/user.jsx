@@ -27,7 +27,6 @@ const User = () => {
     //deciding style of the page: normal user's page or your user page with functionality to edit the profile
     const theuser = JSON.parse(Cookies.get('user'));
     const own_profile = theuser.id == userid;
-    console.log(theuser);
 
     //user data
     const { data: userData, isLoading: isUserDataLoading } = useQuery({

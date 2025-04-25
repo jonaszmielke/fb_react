@@ -142,9 +142,6 @@ const ImagesForm = ({ setStep }) => {
     }, [showProfilePhotoUpload, setShowBackgroundUpload]);
 
 
-    if (!isLoading)
-        console.log(userData)
-
     return (
 
         <div className='images-form'>

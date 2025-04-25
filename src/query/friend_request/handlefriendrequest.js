@@ -15,7 +15,6 @@ const handleFriendRequest = async ({ action, friendRequestId, jwt }) => {
     });
 
     if (!response.ok) {
-        console.log(response);
         throw new Error(`Failed to ${action} friendrequest ${friendRequestId}`);
     }
 

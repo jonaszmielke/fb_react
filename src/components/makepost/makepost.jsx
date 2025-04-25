@@ -74,7 +74,6 @@ function MakePostPopup({ trigger, setTrigger, user }) {
                 throw new Error(errText || `Status ${res.status}`);
             }
             const { message, postid } = await res.json();
-            console.log(message, 'new post id:', postid);
             setText('');
             setSelectedFile(null);
             setPreviewSrc(null);

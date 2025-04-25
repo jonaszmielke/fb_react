@@ -10,7 +10,7 @@ const fetchjwt = async (email, password) => {
     const data = await response.json();
 
     if (!response.ok) {
-        console.log(data.error)
+        //console.log(data.error)
         return {
             error: true
         };

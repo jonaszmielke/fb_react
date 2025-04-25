@@ -12,7 +12,6 @@ const fetchComments = async ({ queryKey, jwt, page }) => {
     });
 
     if (!response.ok) {
-        console.log(response);
         throw new Error(`Failed to fetch comments of post ${postid}`);
     }
 
